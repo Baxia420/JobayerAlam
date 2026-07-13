@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 28 28" fill="#2d4a3e">
+  <path d="M0,-12 L1.7,-2.2 L0,0 L-1.7,-2.2 Z" transform="rotate(0)"/>
+  <path d="M0,-12 L1.7,-2.2 L0,0 L-1.7,-2.2 Z" transform="rotate(45)"/>
+  <path d="M0,-12 L1.7,-2.2 L0,0 L-1.7,-2.2 Z" transform="rotate(90)"/>
+  <path d="M0,-12 L1.7,-2.2 L0,0 L-1.7,-2.2 Z" transform="rotate(135)"/>
+  <path d="M0,-12 L1.7,-2.2 L0,0 L-1.7,-2.2 Z" transform="rotate(180)"/>
+  <path d="M0,-12 L1.7,-2.2 L0,0 L-1.7,-2.2 Z" transform="rotate(225)"/>
+  <path d="M0,-12 L1.7,-2.2 L0,0 L-1.7,-2.2 Z" transform="rotate(270)"/>
+  <path d="M0,-12 L1.7,-2.2 L0,0 L-1.7,-2.2 Z" transform="rotate(315)"/>
+</svg>

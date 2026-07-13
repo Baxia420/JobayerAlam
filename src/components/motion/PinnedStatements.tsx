@@ -82,13 +82,40 @@ export default function PinnedStatements() {
 
     const docks = [...outer.querySelectorAll<HTMLElement>("[data-dock]")];
     const dots = [...outer.querySelectorAll<HTMLElement>("[data-dot]")];
+    const marks = dots
+      .map((d) => d.querySelector<HTMLElement>("[data-dotmark]"))
+      .filter((m): m is HTMLElement => !!m);
     const fill = outer.querySelector<HTMLElement>("[data-fill]");
+    const track = outer.querySelector<HTMLElement>("[data-track]");
     const dmotifs = [...outer.querySelectorAll<HTMLElement>("[data-dmotif]")];
     const mmotifs = [...outer.querySelectorAll<HTMLElement>("[data-mmotif]")];
     const leadEl = outer.querySelector<HTMLElement>("[data-lead]");
     const subEl = outer.querySelector<HTMLElement>("[data-sub]");
     const n = statements.length;
     let last = -1;
+    // Rail track length in px, measured from the real first/last dot centers
+    // so the fill starts and ends exactly on the dots (never poking past the
+    // last circle). Recomputed on resize and after fonts load.
+    let trackLen = 0;
+    const layoutRail = () => {
+      if (!fill || marks.length < 2) return;
+      const container = fill.parentElement;
+      if (!container) return;
+      const cTop = container.getBoundingClientRect().top;
+      const centerOf = (m: HTMLElement) => {
+        const r = m.getBoundingClientRect();
+        return r.top - cTop + r.height / 2;
+      };
+      const first = centerOf(marks[0]);
+      const lastC = centerOf(marks[marks.length - 1]);
+      trackLen = Math.max(0, lastC - first);
+      fill.style.top = `${first}px`;
+      if (track) {
+        track.style.top = `${first}px`;
+        track.style.bottom = "auto";
+        track.style.height = `${trackLen}px`;
+      }
+    };
 
     const targetProgress = () => {
       const r = outer.getBoundingClientRect();
@@ -99,7 +126,7 @@ export default function PinnedStatements() {
 
     const render = (p: number) => {
       const active = Math.min(n - 1, Math.floor(p * n));
-      if (fill) fill.style.height = `${(p * 100).toFixed(1)}%`;
+      if (fill) fill.style.height = `${(p * trackLen).toFixed(1)}px`;
       docks.forEach((d, i) => d.classList.toggle("is-on", i < active));
       dmotifs.forEach((m, i) => m.classList.toggle("is-on", i === active));
       mmotifs.forEach((m, i) => m.classList.toggle("is-on", i === active));
@@ -128,6 +155,19 @@ export default function PinnedStatements() {
       }
     };
 
+    let shown = targetProgress();
+    layoutRail();
+    render(shown);
+
+    // Rail geometry depends on rendered dot positions: recompute once fonts
+    // settle and on every resize (the rail also reflows to a row on mobile).
+    const relayout = () => {
+      layoutRail();
+      render(reduce ? targetProgress() : shown);
+    };
+    if (document.fonts?.ready) document.fonts.ready.then(relayout);
+    window.addEventListener("resize", relayout);
+
     if (reduce) {
       let ticking = false;
       const onScroll = () => {
@@ -140,12 +180,13 @@ export default function PinnedStatements() {
       };
       window.addEventListener("scroll", onScroll, { passive: true });
       onScroll();
-      return () => window.removeEventListener("scroll", onScroll);
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", relayout);
+      };
     }
 
-    let shown = targetProgress();
     let raf = 0;
-    render(shown);
     const loop = () => {
       const t = targetProgress();
       shown += (t - shown) * 0.1;
@@ -154,7 +195,10 @@ export default function PinnedStatements() {
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", relayout);
+    };
   }, []);
 
   return (
@@ -167,7 +211,10 @@ export default function PinnedStatements() {
         <div className="mx-auto grid w-full max-w-[1080px] grid-cols-1 items-center gap-x-[60px] gap-y-9 px-7 min-[721px]:grid-cols-[auto_1fr_auto]">
           {/* progress rail: vertical on desktop, dot row on mobile */}
           <div className="relative py-1">
-            <div className="absolute bottom-[10px] left-[5px] top-[10px] hidden w-[2px] bg-cream/[0.14] min-[721px]:block" />
+            <div
+              data-track
+              className="absolute bottom-[10px] left-[5px] top-[10px] hidden w-[2px] bg-cream/[0.14] min-[721px]:block"
+            />
             <div
               data-fill
               className="absolute left-[5px] top-[10px] hidden w-[2px] bg-sage min-[721px]:block"

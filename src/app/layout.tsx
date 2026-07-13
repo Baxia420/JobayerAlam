@@ -3,6 +3,8 @@ import { Fraunces, Inter, Instrument_Serif } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import SiteEffects from "@/components/SiteEffects";
+import ScrollProgress from "@/components/ScrollProgress";
+import ViewTransitions from "@/components/ViewTransitions";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -59,6 +61,8 @@ export default function RootLayout({
           }}
         />
         <SiteEffects />
+        <ScrollProgress />
+        <ViewTransitions />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
