@@ -18,17 +18,15 @@
   --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
-html {
-  /* Belt-and-suspenders against sideways scroll: some decorative elements
-     bleed off the edges, and clipping only on body lets html still scroll
-     horizontally on mobile (which reads as a broken, pinch-zoomable page). */
-  overflow-x: hidden;
-}
-
 body {
   background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  /* Clip sideways bleed here, NOT on <html>: overflow-x on the root element
+     forces overflow-y to `auto`, turning <html> into a scroll container and
+     breaking every position:sticky on the page (the pinned manifesto, the
+     nav). Decorative elements that bleed are clipped at their own section
+     (e.g. the hero's overflow-hidden) so this alone is enough. */
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
