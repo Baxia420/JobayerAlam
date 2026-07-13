@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Particle {
   x: number;
@@ -33,13 +33,27 @@ const COLORS = ["#2d4a3e", "#8fae9f", "#57544c"];
  * random size. Six rockets go up together after the hero reveal, then a
  * lazy recurring show of one to three rockets fires at random intervals
  * while the hero is on screen; clicking any spark logo ([data-egg]) fires a
- * volley. Skipped under prefers-reduced-motion; the rAF loop sleeps
- * whenever nothing is airborne.
+ * volley. Skipped under prefers-reduced-motion and below the desktop
+ * breakpoint (the stacked mobile hero has no empty corner to hold them);
+ * the rAF loop sleeps whenever nothing is airborne.
  */
 export default function HeroFireworks() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Only run over the wide desktop hero, where there is genuine empty space to
+  // the right of the headline. Tracked as state (not a one-off check) so the
+  // show lights up if the window is later widened past the breakpoint.
+  const [wide, setWide] = useState(false);
 
   useEffect(() => {
+    const mq = window.matchMedia("(min-width: 721px)");
+    const sync = () => setWide(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (!wide) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const cv = canvasRef.current;
     const host = cv?.parentElement;
@@ -214,7 +228,7 @@ export default function HeroFireworks() {
       io.disconnect();
       document.removeEventListener("click", onEgg);
     };
-  }, []);
+  }, [wide]);
 
   return (
     <canvas
