@@ -36,10 +36,7 @@ export default function Footer() {
               LinkedIn
             </a>
           </div>
-          <p>
-            © {new Date().getFullYear()} · Built with Next.js, set in Fraunces
-            &amp; Inter
-          </p>
+          <p>© {new Date().getFullYear()} Jobayer Alam</p>
         </div>
       </div>
     </footer>

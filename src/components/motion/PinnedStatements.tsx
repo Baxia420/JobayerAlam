@@ -203,7 +203,7 @@ export default function PinnedStatements() {
                   <div
                     key={s.lead}
                     data-dock
-                    className="mani-dock border-b border-cream/[0.16] font-display text-[clamp(1.2rem,2.6vw,1.7rem)] leading-none text-cream/45"
+                    className="mani-dock w-fit border-b border-cream/[0.16] pr-10 font-display text-[clamp(1.2rem,2.6vw,1.7rem)] leading-none text-cream/45"
                   >
                     {s.lead}
                   </div>

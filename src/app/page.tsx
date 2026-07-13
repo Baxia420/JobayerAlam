@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <section
-        className="dot-pattern relative mx-auto max-w-[1080px] overflow-hidden px-7 pb-[72px] pt-24"
+        className="dot-pattern relative mx-auto max-w-[1080px] px-7 pb-[72px] pt-24"
         style={{ "--dot-pos": "90% 14%" } as React.CSSProperties}
       >
         <ParallaxGlyph />

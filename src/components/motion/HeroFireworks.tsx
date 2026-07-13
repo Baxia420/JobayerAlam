@@ -172,7 +172,9 @@ export default function HeroFireworks() {
 
     const launch = () => {
       rockets.push({
-        x: W * (0.58 + Math.random() * 0.34),
+        // Center-biased across the hero (was hard against the right edge, so
+        // the ascent was off-screen and only half of each burst showed).
+        x: W * (0.32 + Math.random() * 0.46),
         y: H + 4,
         vx: (Math.random() - 0.5) * 0.6,
         vy: -(2.8 + Math.random() * 1.8),
@@ -234,7 +236,10 @@ export default function HeroFireworks() {
     <canvas
       ref={canvasRef}
       aria-hidden
-      className="pointer-events-none absolute inset-0 z-0"
+      // w-full/h-full pins the DISPLAY size to the container; the drawing
+      // buffer (cv.width/height) is set separately for DPR. Without this the
+      // canvas renders at its intrinsic buffer size and overflows the page.
+      className="pointer-events-none absolute inset-0 z-0 h-full w-full"
     />
   );
 }

@@ -34,9 +34,14 @@ export default function ParallaxGlyph({ speed = -0.12 }: { speed?: number }) {
       ref={ref}
       data-glyph-hero
       aria-hidden
-      className="pointer-events-none absolute -right-[6vw] -top-[4vh] z-0 block select-none text-forest/[0.06]"
+      className="pointer-events-none absolute right-0 -top-[2vh] z-0 block select-none text-forest/[0.06]"
     >
-      <SparkMark className="h-[min(46vh,520px)] w-[min(46vh,520px)]" />
+      {/* Sized so both edges stay inside the viewport at every width (the
+          44vw cap keeps it from spilling past the left edge on phones), and
+          pinned to right-0 with no negative bleed so it never pushes the page
+          wider than the screen. Clipping it instead would either cut the star
+          or, on <html>, kill every position:sticky on the page. */}
+      <SparkMark className="h-[min(42vh,44vw,480px)] w-[min(42vh,44vw,480px)]" />
     </span>
   );
 }
