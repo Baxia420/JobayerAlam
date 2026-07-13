@@ -127,6 +127,34 @@ body::after {
   transform: translateY(0);
 }
 
+/* Manifesto stack ("What I'm about"): passed statements dock and stack at
+   the top, the active statement's motif crossfades. Driven by JS toggling
+   .is-on; collapsed by default so no-JS shows the first statement only. */
+.mani-dock {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition:
+    max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.4s ease,
+    padding 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mani-dock.is-on {
+  max-height: 84px;
+  opacity: 1;
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+.mani-motif {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.mani-motif.is-on {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -1,33 +1,73 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import SparkMark from "@/components/SparkMark";
 
 const statements = [
   {
     label: "Independent",
-    lead: "I build independently.",
-    sub: "Side projects taken from idea to shipped, outside of class.",
+    lead: "I ship what I start.",
+    sub: "The work I care about most is the work nobody assigned. I build it outside of class, and I see it through.",
+    motif: "plane",
+    cap: "shipped",
   },
   {
     label: "Academic",
-    lead: "I study broadly.",
-    sub: "Coursework across systems, networks, and data. Not just code.",
+    lead: "I learn past the syllabus.",
+    sub: "Systems, networks, data, design. I follow the parts of the field that reach beyond writing code.",
+    motif: "venn",
+    cap: "breadth",
   },
   {
     label: "Community",
-    lead: "I show up.",
-    sub: "Volunteering and community work, semester after semester.",
+    lead: "I show up in person.",
+    sub: "Some of what matters never ships as code. I make time for the work that happens off the keyboard.",
+    motif: "people",
+    cap: "presence",
   },
-];
+] as const;
+
+function Motif({ name }: { name: string }) {
+  const common = {
+    viewBox: "0 0 100 100",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2.4,
+    className: "h-full w-full",
+  } as const;
+  if (name === "plane") {
+    return (
+      <svg {...common} strokeLinejoin="round" strokeLinecap="round" aria-hidden>
+        <path d="M16 48 L84 18 L60 84 L48 58 Z" />
+        <path d="M84 18 L48 58" />
+      </svg>
+    );
+  }
+  if (name === "venn") {
+    return (
+      <svg {...common} aria-hidden>
+        <circle cx="40" cy="42" r="21" />
+        <circle cx="60" cy="42" r="21" />
+        <circle cx="50" cy="60" r="21" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...common} strokeLinecap="round" aria-hidden>
+      <circle cx="37" cy="39" r="12" />
+      <circle cx="65" cy="43" r="9.5" />
+      <path d="M18 80 c0-14 10-22 19-22 c9 0 16 7 18 16" />
+      <path d="M52 80 c1-11 9-17 16-17 c8 0 13 5 15 12" />
+    </svg>
+  );
+}
 
 /**
- * "What I'm about": sticky section pinned while three statements crossfade,
- * driven by scroll progress. The rendered progress chases the real scroll
- * position through a lerp (factor 0.1) in a continuous rAF loop, so chunky
- * mouse-wheel steps ease out smoothly instead of jumping. A progress rail on
- * the left fills and lights up dots; the ghost ✳ rotates with progress.
- * Under prefers-reduced-motion the lerp and glyph rotation are skipped and
+ * "What I'm about": a pinned manifesto. As you scroll, each statement docks
+ * and stacks at the top while the active one stays large with a crossfading
+ * motif; a rail on the left tracks progress with a three-state dot (active =
+ * cream, done = sage, upcoming = hollow) that matches its label. Rendered
+ * progress chases the real scroll position through a lerp (0.1) so wheel
+ * steps ease out; under prefers-reduced-motion the lerp is skipped and
  * progress tracks the scrollbar exactly.
  */
 export default function PinnedStatements() {
@@ -40,11 +80,15 @@ export default function PinnedStatements() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    const stmts = [...outer.querySelectorAll<HTMLElement>("[data-stmt]")];
-    const glyph = outer.querySelector<HTMLElement>("[data-glyph-pin]");
-    const fill = outer.querySelector<HTMLElement>("[data-progressfill]");
+    const docks = [...outer.querySelectorAll<HTMLElement>("[data-dock]")];
     const dots = [...outer.querySelectorAll<HTMLElement>("[data-dot]")];
-    const n = stmts.length;
+    const fill = outer.querySelector<HTMLElement>("[data-fill]");
+    const dmotifs = [...outer.querySelectorAll<HTMLElement>("[data-dmotif]")];
+    const mmotifs = [...outer.querySelectorAll<HTMLElement>("[data-mmotif]")];
+    const leadEl = outer.querySelector<HTMLElement>("[data-lead]");
+    const subEl = outer.querySelector<HTMLElement>("[data-sub]");
+    const n = statements.length;
+    let last = -1;
 
     const targetProgress = () => {
       const r = outer.getBoundingClientRect();
@@ -54,34 +98,34 @@ export default function PinnedStatements() {
     };
 
     const render = (p: number) => {
-      stmts.forEach((s, i) => {
-        const center = (i + 0.5) / n;
-        const d = Math.abs(p - center);
-        const span = 1 / n;
-        const op = Math.max(0, Math.min(1, 1 - d / (span * 0.72)));
-        s.style.opacity = op.toFixed(3);
-        s.style.transform = `translateY(${(p - center) * -70}px)`;
-      });
-
-      if (glyph && !reduce) {
-        glyph.style.rotate = `${p * 140}deg`;
-      }
-      if (fill) fill.style.height = `${(p * 100).toFixed(1)}%`;
-
       const active = Math.min(n - 1, Math.floor(p * n));
+      if (fill) fill.style.height = `${(p * 100).toFixed(1)}%`;
+      docks.forEach((d, i) => d.classList.toggle("is-on", i < active));
+      dmotifs.forEach((m, i) => m.classList.toggle("is-on", i === active));
+      mmotifs.forEach((m, i) => m.classList.toggle("is-on", i === active));
       dots.forEach((d, i) => {
         const mark = d.querySelector<HTMLElement>("[data-dotmark]");
         const lab = d.querySelector<HTMLElement>("[data-dotlabel]");
-        const on = i <= active;
-        if (mark) mark.style.background = on ? "#8fae9f" : "#2d4a3e";
-        if (lab)
-          lab.style.color =
-            i === active
-              ? "#faf6ef"
-              : on
-                ? "rgba(250,246,239,.62)"
-                : "rgba(250,246,239,.4)";
+        if (!mark || !lab) return;
+        if (i === active) {
+          mark.style.background = "#faf6ef";
+          mark.style.borderColor = "#faf6ef";
+          lab.style.color = "#faf6ef";
+        } else if (i < active) {
+          mark.style.background = "#8fae9f";
+          mark.style.borderColor = "#8fae9f";
+          lab.style.color = "rgba(250,246,239,.62)";
+        } else {
+          mark.style.background = "#2d4a3e";
+          mark.style.borderColor = "#8fae9f";
+          lab.style.color = "rgba(250,246,239,.4)";
+        }
       });
+      if (active !== last) {
+        last = active;
+        if (leadEl) leadEl.textContent = statements[active].lead;
+        if (subEl) subEl.textContent = statements[active].sub;
+      }
     };
 
     if (reduce) {
@@ -103,9 +147,9 @@ export default function PinnedStatements() {
     let raf = 0;
     render(shown);
     const loop = () => {
-      const target = targetProgress();
-      shown += (target - shown) * 0.1;
-      if (Math.abs(target - shown) < 0.0004) shown = target;
+      const t = targetProgress();
+      shown += (t - shown) * 0.1;
+      if (Math.abs(t - shown) < 0.0004) shown = t;
       render(shown);
       raf = requestAnimationFrame(loop);
     };
@@ -117,27 +161,19 @@ export default function PinnedStatements() {
     <section
       ref={outerRef}
       id="ethos"
-      className="relative h-[260vh] bg-forest text-cream"
+      className="relative h-[280vh] bg-forest text-cream"
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <span
-          data-glyph-pin
-          aria-hidden
-          className="pointer-events-none absolute -right-[14vw] top-1/2 block -translate-y-1/2 select-none text-cream/[0.055]"
-        >
-          <SparkMark className="h-[64vh] w-[64vh]" />
-        </span>
-
-        <div className="relative mx-auto grid w-full max-w-[1080px] grid-cols-1 items-center gap-9 px-7 min-[721px]:grid-cols-[auto_1fr] min-[721px]:gap-[60px]">
-          {/* progress rail */}
-          <div className="relative self-center py-1">
+        <div className="mx-auto grid w-full max-w-[1080px] grid-cols-1 items-center gap-x-[60px] gap-y-9 px-7 min-[721px]:grid-cols-[auto_1fr_auto]">
+          {/* progress rail: vertical on desktop, dot row on mobile */}
+          <div className="relative py-1">
             <div className="absolute bottom-[10px] left-[5px] top-[10px] hidden w-[2px] bg-cream/[0.14] min-[721px]:block" />
             <div
-              data-progressfill
+              data-fill
               className="absolute left-[5px] top-[10px] hidden w-[2px] bg-sage min-[721px]:block"
               style={{ height: 0 }}
             />
-            <ul className="relative flex list-none flex-row flex-wrap gap-[22px] min-[721px]:flex-col min-[721px]:gap-[72px]">
+            <ul className="relative flex list-none flex-row flex-wrap gap-x-6 gap-y-3 min-[721px]:flex-col min-[721px]:gap-[64px]">
               {statements.map((s) => (
                 <li key={s.label} data-dot className="flex items-center gap-4">
                   <span
@@ -155,34 +191,69 @@ export default function PinnedStatements() {
             </ul>
           </div>
 
-          {/* statement stage */}
-          <div className="relative min-h-[clamp(280px,44vh,440px)]">
-            <p className="mb-[34px] text-xs font-medium uppercase tracking-[0.26em] text-cream/50">
+          {/* text column */}
+          <div>
+            <p className="mb-8 text-xs font-medium uppercase tracking-[0.26em] text-cream/50">
               What I&rsquo;m about
             </p>
-            <div className="relative">
-              {statements.map((s, i) => (
-                <div
-                  key={s.lead}
-                  data-stmt
-                  className="absolute inset-x-0 top-0"
-                  style={{ opacity: i === 0 ? 1 : 0 }}
-                >
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute -top-[0.35em] right-0 select-none font-serif text-[clamp(8rem,32vh,17rem)] italic leading-none text-cream/[0.07]"
+            <div className="relative min-h-[clamp(300px,46vh,420px)]">
+              {/* dock stack */}
+              <div className="flex flex-col">
+                {statements.map((s) => (
+                  <div
+                    key={s.lead}
+                    data-dock
+                    className="mani-dock border-b border-cream/[0.16] font-display text-[clamp(1.2rem,2.6vw,1.7rem)] leading-none text-cream/45"
                   >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="relative font-display text-[clamp(2.8rem,7.5vw,5.4rem)] leading-[1.02] tracking-[-0.01em]">
                     {s.lead}
-                  </p>
-                  <p className="relative mt-6 max-w-[38ch] text-[19px] leading-[1.55] text-cream/70">
-                    {s.sub}
-                  </p>
+                  </div>
+                ))}
+              </div>
+              {/* active statement */}
+              <div className="pt-7">
+                <div className="relative mb-5 h-[50px] w-[50px] text-sage min-[721px]:hidden">
+                  {statements.map((s, i) => (
+                    <span
+                      key={s.motif}
+                      data-mmotif
+                      className={`mani-motif absolute inset-0 block ${i === 0 ? "is-on" : ""}`}
+                    >
+                      <Motif name={s.motif} />
+                    </span>
+                  ))}
                 </div>
-              ))}
+                <p
+                  data-lead
+                  className="font-display text-[clamp(2.4rem,6vw,4.4rem)] leading-[1.03] tracking-[-0.01em]"
+                >
+                  {statements[0].lead}
+                </p>
+                <p
+                  data-sub
+                  className="mt-5 max-w-[40ch] text-[17px] leading-[1.55] text-cream/70"
+                >
+                  {statements[0].sub}
+                </p>
+              </div>
             </div>
+          </div>
+
+          {/* desktop motif panel */}
+          <div className="relative hidden h-[150px] w-[130px] text-sage min-[721px]:block">
+            {statements.map((s, i) => (
+              <div
+                key={s.cap}
+                data-dmotif
+                className={`mani-motif absolute inset-0 flex flex-col items-center justify-center gap-3.5 ${i === 0 ? "is-on" : ""}`}
+              >
+                <span className="h-[92px] w-[92px]">
+                  <Motif name={s.motif} />
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-cream/50">
+                  {s.cap}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
