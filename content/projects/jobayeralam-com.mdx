@@ -1,0 +1,33 @@
+---
+title: "jobayeralam.com"
+description: "This site: an editorial portfolio with hand-written scroll motion and no animation library."
+date: "2026-07-10"
+type: independent
+tier: flagship
+featured: false
+priority: 70
+tags: ["Next.js", "Design engineering", "Motion", "MDX"]
+imageLabel: "this site"
+---
+
+## The problem
+
+Most developer portfolios are the same template with a different name on it. I wanted mine to be evidence in its own right: if I claim I care about how things are built, the site making that claim should hold up when you look at it closely.
+
+## What I built
+
+An editorial, print-inspired portfolio in Next.js and TypeScript, with the writing in MDX so a new project is a content file rather than a component. A warm cream-and-forest palette, a serif display face, and a set of design tokens the whole site reads from.
+
+The motion is the part I care about: a masked hero reveal, a scroll-pinned manifesto whose statements stack as you pass them, a parallax mark, a custom cursor, and a small fireworks canvas over the hero. Underneath there is a favicon and social card generated from the same spark mark, cross-fading page transitions, and a reading-progress bar.
+
+## Decisions and trade-offs
+
+**No animation library.** The first version used GSAP. I removed it and rewrote every effect on scroll listeners, IntersectionObserver, `requestAnimationFrame` and CSS transitions. That is more code and I own all of it, but it dropped a dependency from the critical path and forced me to actually understand what an animation library does rather than calling a method that does it. Scroll progress is smoothed by chasing the real scroll position through a lerp, so wheel steps ease out instead of snapping.
+
+**Nothing hidden without JavaScript.** Every "hidden until revealed" state is gated behind a class an inline script adds. If the script never runs, nothing is invisible: the content is just there. Motion is an enhancement, not a precondition for reading the page.
+
+**Effects that respect the room.** `prefers-reduced-motion` disables the fireworks and the smoothing; the custom cursor never appears on touch; the fireworks only run on the desktop layout, where there is empty space for them to live.
+
+## What I learned
+
+Removing the animation library was the most educational thing I did here, and the debugging that followed was where the real learning was. A background element bleeding a few pixels past the viewport turned a phone into a broken, pinch-zoomable mess; clipping it on the root element then silently killed every `position: sticky` on the page. Both were one-line changes, and neither was findable by looking at the code — only by measuring the actual rendered geometry. That is the habit I took from this project: when the layout lies to you, stop reasoning and start measuring.

@@ -1,0 +1,31 @@
+---
+title: "Moonblade"
+description: "A hackathon action game built on a bare canvas: no engine, no framework, one weekend."
+date: "2026-02-14"
+type: independent
+tier: flagship
+featured: false
+priority: 75
+tags: ["JavaScript", "Canvas", "Game dev", "Hackathon"]
+imageLabel: "gameplay"
+---
+
+## The problem
+
+A hackathon, a team of three, and a weekend. We wanted a game with an actual story rather than a mechanic demo: a samurai chasing the person who burned his city, told across four scenes with cutscenes, dialogue and boss fights. I wrote most of the code and the story; a teammate did the pixel art.
+
+## What I built
+
+A 2D action game running on a raw canvas with no engine and no libraries. The engine is split by concern rather than dumped in one file: core loop, rendering, entities, bosses, campaign, UI, cutscenes, and bootstrap. The campaign moves through a burning city, frozen foothills and a dawn at Mount Fuji, with two mini-bosses and a final duel, parallax background layers, a portrait-driven dialogue system and scripted cutscenes.
+
+## Decisions and trade-offs
+
+**Every asset is optional.** The single best decision we made. The art was being drawn while the code was being written, so the loader treats every background and portrait as optional: if a file is missing it silently falls back to a procedurally drawn placeholder. The game is never broken, it is just less pretty, which meant the artist and I were never blocked on each other for a single minute of a weekend where minutes were the whole budget.
+
+**Split the engine on day one.** Numbered modules with clear responsibilities felt like over-engineering for a weekend project, right up until three people needed to edit the game at the same time without stepping on each other.
+
+**Data-driven scenes.** Backgrounds, parallax rates and blend modes are declared in a table rather than hard-coded per scene, so adding a section was a data change.
+
+## What I learned
+
+Writing an engine from nothing teaches you what engines actually do for you: the loop, the timing, the layering, the asset pipeline. But the real lesson was about collaboration under a deadline. Designing for missing assets was not a graphics decision, it was a team decision, and it is the reason we shipped something with a beginning, middle and end instead of a tech demo.

@@ -1,0 +1,33 @@
+---
+title: "Aksara"
+description: "An academic OS: assignments, deadlines, courses and focus sessions in one calm dashboard."
+date: "2026-05-01"
+type: independent
+tier: flagship
+featured: true
+priority: 100
+tags: ["Next.js", "Supabase", "PWA", "TypeScript"]
+imageLabel: "dashboard"
+---
+
+## The problem
+
+Assignments, quizzes and exams live in four different places: a course portal, a group chat, a lecturer's slide, and my own memory. None of them tell me what is actually due next, and none of them know how much time I have already put in. I wanted one screen that answers "what now?" without me maintaining it.
+
+## What I built
+
+A private academic dashboard. Tasks are grouped into a filterable board (pending, group, urgent, done) with inline complete and edit. A month calendar marks every deadline. Courses carry their own colour through the whole interface. A Pomodoro timer logs focus sessions and breaks the week down per task and per course, so the time tracking is a by-product of working rather than a second chore.
+
+It runs on Next.js (App Router) with Supabase for auth and Postgres, and every mutation goes through Server Actions. It is installable as a PWA with a service worker, and it sends real push notifications for upcoming deadlines from a scheduled reminder job.
+
+## Decisions and trade-offs
+
+**Fetch once, in the layout.** The dashboard tabs all read the same underlying data. Fetching per tab meant a spinner on every switch. Instead the data is fetched once on the server in the dashboard layout, memoized with `React.cache`, and the *promise* is passed down through a provider; the page unwraps it with React's `use` API. Because the layout stays mounted across tabs, switching never refetches. Mutations call `router.refresh()` to pull fresh server data rather than hand-maintaining client state. The trade-off is that the layout knows about data its children need, which is a coupling I accepted for the sake of never showing a spinner on a tab switch.
+
+**One source of truth for course colour.** Course theming was the kind of thing that rots into six copies of the same switch statement. It lives in a single module that everything imports.
+
+**Keeping a free database alive.** Supabase pauses free projects after inactivity, which would make the app dead on arrival for anyone opening it after a quiet week. A scheduled GitHub Action pings the API every three days. It is not elegant, but it is honest about the constraint I was building under.
+
+## What I learned
+
+Most of the difficulty was not the features, it was the data flow: deciding where fetching belongs, and resisting the urge to mirror server data into client state. Server Actions plus `router.refresh()` removed an entire category of bugs I would otherwise have written by hand.

@@ -1,0 +1,34 @@
+---
+title: "Virtual Internship Portal"
+description: "A three-role internship platform: students apply, companies post, the university oversees."
+date: "2026-05-20"
+type: coursework
+tier: flagship
+featured: false
+priority: 80
+course: "Software Engineering Principles"
+tags: ["React", "Supabase", "Full-stack", "Auth"]
+imageLabel: "student dashboard"
+---
+
+## The problem
+
+An internship programme has three parties who need completely different things from the same data. Students want to find a placement and track applications. Companies want to post listings and review applicants. The university needs oversight of both. One dataset, three incompatible views, and none of them allowed to see everything.
+
+## What I built
+
+The full portal, front end and back end. Students browse and filter listings, build a profile, upload a CV and track applications. Companies create listings, manage postings and review applicants. Supervisors oversee the programme across both. There is also a peer discussion forum for the questions that never make it into an official channel, and a career radar view over the listings.
+
+React and Vite on the front, Supabase underneath for auth, Postgres and file storage for avatars and resumes. The interface is built on a small shared component set — buttons, cards, status badges, skeletons, empty states — so the three dashboards feel like one product rather than three student projects stapled together.
+
+## Decisions and trade-offs
+
+**Roles enforced in the database, not the UI.** The tempting shortcut is to hide the buttons a role should not have and call it access control. That is not security, it is decoration: anyone can call the API directly. Permissions live in row-level security policies, so a student cannot read another student's application even if they bypass the interface entirely. The UI hides things because it is polite, not because it is the lock.
+
+**A design system before the third dashboard.** With three role-specific dashboards, the shared vocabulary of card, badge and empty state had to exist first. Building it up front felt slow until the third dashboard took a fraction of the time of the first.
+
+**Empty and loading states as real states.** A dashboard with no listings yet is the first thing a new user sees, and it is the state most student projects forget. Skeletons and empty states are components here, not an afterthought.
+
+## What I learned
+
+Modelling permissions is design work, not plumbing, and it is much easier to get right before the tables exist than after. Doing every layer myself — schema, policies, API, components, design — is also the clearest picture I have had of how a decision at the database level ripples all the way to what a button is allowed to do.

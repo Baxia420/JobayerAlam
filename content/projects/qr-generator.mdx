@@ -1,0 +1,35 @@
+---
+title: "Dynamic QR Platform"
+description: "QR codes whose destination can change after printing, with scan analytics I refused to rent."
+date: "2026-06-15"
+type: independent
+tier: flagship
+featured: true
+priority: 95
+tags: ["Next.js", "Supabase", "Analytics"]
+imageLabel: "analytics"
+---
+
+## The problem
+
+I wanted two things from a QR code: to know whether anyone actually scanned it, and to be able to fix the destination after it was already printed. Every service that does this charges a monthly subscription for what is, underneath, a redirect and a database table. So I built it.
+
+## What I built
+
+A QR code is never pointed at the destination directly. It encodes a short code on my own domain; that route looks the link up, records the scan, and redirects. Because the destination lives in a row rather than in the printed pixels, I can re-point a code that is already on a poster without reprinting anything.
+
+Every scan is logged with device type, OS, browser, referrer, and coarse location, and the admin dashboard breaks each code down over time. Both hot paths (code lookup on redirect, scan aggregation per link) are indexed, because the redirect sits in front of a human waiting for a page to load.
+
+Since the first version it has grown into a small platform: an admin API with per-link management and bulk operations, rate limiting, password-protected links, and a QR customiser.
+
+## Decisions and trade-offs
+
+**The redirect is the product.** The indirection through my own short code is what makes everything else possible: analytics, editable destinations, expiry. Once I understood that, the QR image itself became the least interesting part of the system.
+
+**No user-agent library.** Parsing a user agent is a pile of regexes wearing a trenchcoat. Rather than take a dependency that does far more than I needed, I wrote a small parser that returns device, OS and browser and nothing else. It is less complete than the real libraries, and for the question "was this scanned on a phone or a laptop" that is fine.
+
+**Redirect speed over data richness.** Every field I collect is one more thing between the scan and the page. Location comes from edge headers that are already there rather than an extra lookup, and the write does not block the redirect.
+
+## What I learned
+
+The interesting problems were not the QR codes at all. They were the ones you inherit the moment you host a redirect for other people: who is allowed to change a destination, how you stop the endpoint being abused, and how much you should collect about someone who just pointed a camera at a sticker. Building it made me understand what the subscription was actually charging for, and which parts of it I still think are worth paying for.

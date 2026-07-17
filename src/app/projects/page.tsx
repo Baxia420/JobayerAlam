@@ -47,26 +47,30 @@ export default function ProjectsPage() {
       </section>
 
       <section className="mx-auto max-w-[1080px] px-7 pb-10 pt-16">
-        <Reveal>
-          <Eyebrow mark="02" className="mb-2">
-            Archive
-          </Eyebrow>
-          <h2 className="mb-6 font-serif text-[clamp(1.9rem,4.4vw,2.8rem)] font-medium tracking-[-0.02em]">
-            More coursework &amp; smaller work
-          </h2>
-        </Reveal>
-
-        <div>
-          {archive.map((project, i) => (
-            <Reveal key={project.slug}>
-              <ArchiveRow
-                project={project}
-                number={flagship.length + i + 1}
-                last={i === archive.length - 1}
-              />
+        {archive.length > 0 && (
+          <>
+            <Reveal>
+              <Eyebrow mark="02" className="mb-2">
+                Archive
+              </Eyebrow>
+              <h2 className="mb-6 font-serif text-[clamp(1.9rem,4.4vw,2.8rem)] font-medium tracking-[-0.02em]">
+                More coursework &amp; smaller work
+              </h2>
             </Reveal>
-          ))}
-        </div>
+
+            <div>
+              {archive.map((project, i) => (
+                <Reveal key={project.slug}>
+                  <ArchiveRow
+                    project={project}
+                    number={flagship.length + i + 1}
+                    last={i === archive.length - 1}
+                  />
+                </Reveal>
+              ))}
+            </div>
+          </>
+        )}
 
         <Reveal className="mt-12">
           <Link

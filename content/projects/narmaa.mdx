@@ -1,0 +1,33 @@
+---
+title: "Narmaa Transport"
+description: "A booking and lead-capture site for a Malaysian travel and transport business."
+date: "2026-03-10"
+type: independent
+tier: flagship
+featured: true
+priority: 90
+tags: ["React", "TypeScript", "Client work", "SEO"]
+imageLabel: "landing page"
+---
+
+## The problem
+
+A real transport business needed a site that did more than exist. It had four different things to sell (airport transfers, car rental, chauffeured tours, homestays), an audience that books over WhatsApp rather than through a checkout, and no appetite for a booking system nobody would use.
+
+## What I built
+
+A React and TypeScript front end covering the whole catalogue: fleet, tours, homestays and shuttles, each with detail pages, galleries and a category-filtered FAQ. The important part is the funnel. Instead of pretending customers want a multi-step checkout, every path ends in a lead form that captures the enquiry and hands the conversation straight to WhatsApp, where this business actually closes bookings. A floating WhatsApp button follows the whole site.
+
+Because the client needs to be found, SEO is real rather than decorative: per-page titles, meta descriptions and OpenGraph tags, plus a sitemap and robots file.
+
+## Decisions and trade-offs
+
+**Meet the customer where they already are.** The instinct is to build a booking engine. The right answer was to notice that this business runs on WhatsApp and make the site a very good front door to it. Lead capture plus a handoff beat a checkout nobody would have completed, and it removed an enormous amount of scope.
+
+**Feature flags over branches.** Sections the client had not finalised are behind flags, so the site could go live without the unfinished parts and turn them on later without a redeploy of half-built code.
+
+**Content in a typed data layer.** Cars, tours and stays are typed data rather than hand-written pages, so adding a vehicle is a data change, not a copy-paste of a page.
+
+## What I learned
+
+The most valuable thing I did on this project was argue for less. My first instinct was to build the impressive thing; the useful thing was to work out how the business actually makes money and get out of its way. Building for a real stakeholder, with real opinions and a real deadline, taught me more about scoping than any amount of building for myself.

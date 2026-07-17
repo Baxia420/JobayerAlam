@@ -1,0 +1,38 @@
+---
+title: "TransitIQ"
+description: "A Java route planner for the Klang Valley: multi-modal A* over a live traffic model."
+date: "2026-06-01"
+type: coursework
+tier: flagship
+featured: false
+priority: 85
+course: "Advanced Programming"
+tags: ["Java 21", "Algorithms", "Concurrency"]
+imageLabel: "route output"
+---
+
+## The problem
+
+Getting across Kuala Lumpur is not one network, it is four overlapping ones: trains, buses, roads and your own feet. The fastest route, the cheapest route and the cleanest route are rarely the same route, and traffic makes the answer change through the day. The brief was a terminal route planner that could actually reason about that.
+
+## What I built
+
+The Klang Valley as a weighted directed graph: stations, bus stops and junctions as nodes, and train links, bus links, road links and walking connections as edges, loaded from CSV into roughly 500 nodes and 2000 edges.
+
+On top of that, routing with A\*, using a speed-scaled heuristic that stays admissible so the result is still optimal. Three strategies plug into the same search through a common interface: fastest minimises live travel time, cheapest minimises fare, eco minimises CO₂. All three are computed, ranked, and the user expands whichever they want.
+
+Around the search: a traffic simulator that publishes delay snapshots, a district congestion report, trip history with bookmarking and replay, input validation for station codes, node IDs, GPS coordinates and departure times, a searchable CLI, and an offline HTML export of a route map.
+
+## Decisions and trade-offs
+
+**Cost function as a strategy, not a flag.** Fastest, cheapest and eco differ only in how an edge is priced and what the heuristic estimates. Making that an interface, rather than branching inside the search, meant one A\* implementation instead of three near-identical copies, and adding a fourth objective is a new class rather than a new `if`.
+
+**Immutable snapshots instead of locks.** Traffic updates while people are searching, which is a data race waiting to happen. Rather than lock the graph, the simulator publishes a new immutable weight map and swaps it atomically behind an `AtomicReference` with compare-and-set. A search grabs one snapshot and runs to completion against it, so it can never see a half-updated world and never blocks the writer. The trade-off is that a long search may finish against slightly stale traffic, which for route planning is a perfectly acceptable answer.
+
+**Virtual threads for the fan-out.** The three strategies are independent searches, so they run concurrently on Java 21 virtual threads rather than sequentially.
+
+**Coverage as a gate.** Line and branch coverage thresholds are enforced by the build, so tests are a condition of the project compiling rather than an afterthought.
+
+## What I learned
+
+The graph and the A\* were the parts I expected to be hard, and they were the parts that textbooks cover. The genuinely difficult part was concurrency: a shared, mutating world model read by multiple searches. Learning to reach for immutability and an atomic swap instead of a lock changed how I think about shared state generally, and it is the piece of this project I am most likely to reuse.

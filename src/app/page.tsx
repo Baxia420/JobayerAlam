@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getFlagship } from "@/lib/content";
+import { getFeatured } from "@/lib/content";
 import HeroIntro from "@/components/motion/HeroIntro";
 import HeroFireworks from "@/components/motion/HeroFireworks";
 import Reveal from "@/components/motion/Reveal";
@@ -10,7 +10,8 @@ import SectionHeading from "@/components/SectionHeading";
 import SparkMark from "@/components/SparkMark";
 
 export default function Home() {
-  const flagship = getFlagship();
+  // Curated picks only: /projects carries the full flagship list.
+  const featured = getFeatured();
 
   return (
     <>
@@ -97,7 +98,7 @@ export default function Home() {
         </Reveal>
 
         <div className="mt-14 flex flex-col gap-20">
-          {flagship.map((project, i) => (
+          {featured.map((project, i) => (
             <Reveal key={project.slug}>
               <FeatureCard project={project} index={i} flip={i % 2 === 1} />
             </Reveal>
