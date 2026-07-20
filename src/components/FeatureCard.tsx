@@ -21,9 +21,11 @@ export default function FeatureCard({
     <Tilt maxDeg={7} scale={1.02} className={flip ? "sm:order-1" : ""}>
       <div className="flex aspect-[4/3] flex-col overflow-hidden rounded-xl border border-line bg-cream-deep">
         <div className="flex items-center gap-1.5 bg-stripe px-4 py-2.5">
-          <span aria-hidden className="h-2 w-2 rounded-full bg-[#c9bfa8]" />
-          <span aria-hidden className="h-2 w-2 rounded-full bg-[#c9bfa8]" />
-          <span aria-hidden className="h-2 w-2 rounded-full bg-[#c9bfa8]" />
+          {/* macOS traffic-light layout, tinted to the palette (clay / ochre /
+              sage) so it reads as a Mac window without the loud native colors. */}
+          <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#bd7b58]" />
+          <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#c8a75e]" />
+          <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-[#8fae9f]" />
           <span className="ml-2 font-mono text-[11px] tracking-[0.08em] text-mono-label">
             {project.slug}
           </span>
