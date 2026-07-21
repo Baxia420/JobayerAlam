@@ -19,7 +19,7 @@ export default function FeatureCard({
 }) {
   const image = (
     <Tilt maxDeg={7} scale={1.02} className={flip ? "sm:order-1" : ""}>
-      <div className="flex aspect-[4/3] flex-col overflow-hidden rounded-xl border border-line bg-cream-deep">
+      <div className="flex aspect-[4/3] flex-col overflow-hidden rounded-xl bg-cream-deep shadow-[0_20px_44px_-18px_rgba(26,26,24,0.22)]">
         <div className="flex items-center gap-1.5 bg-stripe px-4 py-2.5">
           {/* macOS traffic-light layout, tinted to the palette (clay / ochre /
               sage) so it reads as a Mac window without the loud native colors. */}
@@ -37,7 +37,7 @@ export default function FeatureCard({
               src={project.cover}
               alt={`${project.title} — screenshot`}
               loading="lazy"
-              className="h-full w-full object-cover object-top"
+              className="h-full w-full object-contain"
             />
           ) : (
             <span className="font-mono text-xs uppercase tracking-[0.1em] text-mono-label">
