@@ -8,6 +8,7 @@ featured: true
 priority: 90
 tags: ["React", "TypeScript", "Client work", "SEO"]
 imageLabel: "landing page"
+cover: "/projects/narmaa/cover.webp"
 ---
 
 ## The problem
@@ -18,11 +19,17 @@ A real transport business needed a site that did more than exist. It had four di
 
 A React and TypeScript front end covering the whole catalogue: fleet, tours, homestays and shuttles, each with detail pages, galleries and a category-filtered FAQ. The important part is the funnel. Instead of pretending customers want a multi-step checkout, every path ends in a lead form that captures the enquiry and hands the conversation straight to WhatsApp, where this business actually closes bookings. A floating WhatsApp button follows the whole site.
 
+<Figure src="/projects/narmaa/tour-page.webp" caption="A tour detail page — itinerary, gallery and a lead form that hands off to WhatsApp." />
+
 Because the client needs to be found, SEO is real rather than decorative: per-page titles, meta descriptions and OpenGraph tags, plus a sitemap and robots file.
+
+<Figure src="/projects/narmaa/car-rental.webp" caption="The fleet: premium vehicles with specs, browsable by category." />
 
 ## Decisions and trade-offs
 
 **Meet the customer where they already are.** The instinct is to build a booking engine. The right answer was to notice that this business runs on WhatsApp and make the site a very good front door to it. Lead capture plus a handoff beat a checkout nobody would have completed, and it removed an enormous amount of scope.
+
+<Figure src="/projects/narmaa/airport-shuttle.webp" caption="The airport shuttle flow — a quote request, not a checkout nobody would finish." />
 
 **Feature flags over branches.** Sections the client had not finalised are behind flags, so the site could go live without the unfinished parts and turn them on later without a redeploy of half-built code.
 

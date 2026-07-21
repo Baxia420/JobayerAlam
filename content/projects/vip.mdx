@@ -9,6 +9,7 @@ priority: 80
 course: "Software Engineering Principles"
 tags: ["React", "Supabase", "Full-stack", "Auth"]
 imageLabel: "student dashboard"
+cover: "/projects/vip/cover.webp"
 ---
 
 ## The problem
@@ -19,15 +20,23 @@ An internship programme has three parties who need completely different things f
 
 The full portal, front end and back end. Students browse and filter listings, build a profile, upload a CV and track applications. Companies create listings, manage postings and review applicants. Supervisors oversee the programme across both. There is also a peer discussion forum for the questions that never make it into an official channel, and a career radar view over the listings.
 
+<Figure src="/projects/vip/student-dashboard.webp" caption="The student dashboard — applications, deadlines and recommended listings." />
+
 React and Vite on the front, Supabase underneath for auth, Postgres and file storage for avatars and resumes. The interface is built on a small shared component set — buttons, cards, status badges, skeletons, empty states — so the three dashboards feel like one product rather than three student projects stapled together.
+
+<Figure src="/projects/vip/browse-listings.webp" caption="Browsing and filtering internship listings." />
 
 ## Decisions and trade-offs
 
 **Roles enforced in the database, not the UI.** The tempting shortcut is to hide the buttons a role should not have and call it access control. That is not security, it is decoration: anyone can call the API directly. Permissions live in row-level security policies, so a student cannot read another student's application even if they bypass the interface entirely. The UI hides things because it is polite, not because it is the lock.
 
+<Figure src="/projects/vip/company-applications.webp" caption="The company side — reviewing applicants for a posting." />
+
 **A design system before the third dashboard.** With three role-specific dashboards, the shared vocabulary of card, badge and empty state had to exist first. Building it up front felt slow until the third dashboard took a fraction of the time of the first.
 
 **Empty and loading states as real states.** A dashboard with no listings yet is the first thing a new user sees, and it is the state most student projects forget. Skeletons and empty states are components here, not an afterthought.
+
+<Figure src="/projects/vip/discussion-form.webp" caption="The peer discussion forum — for the questions that never make it into an official channel." />
 
 ## What I learned
 

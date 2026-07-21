@@ -30,10 +30,20 @@ export default function FeatureCard({
             {project.slug}
           </span>
         </div>
-        <div className="flex flex-1 items-center justify-center">
-          <span className="font-mono text-xs uppercase tracking-[0.1em] text-mono-label">
-            {project.imageLabel ?? "screenshot coming"}
-          </span>
+        <div className="flex flex-1 items-center justify-center overflow-hidden">
+          {project.cover ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={project.cover}
+              alt={`${project.title} — screenshot`}
+              loading="lazy"
+              className="h-full w-full object-cover object-top"
+            />
+          ) : (
+            <span className="font-mono text-xs uppercase tracking-[0.1em] text-mono-label">
+              {project.imageLabel ?? "screenshot coming"}
+            </span>
+          )}
         </div>
       </div>
     </Tilt>

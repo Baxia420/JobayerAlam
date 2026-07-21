@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllEntries, getEntry } from "@/lib/content";
 import Tag from "@/components/Tag";
+import Figure from "@/components/Figure";
 
 export const dynamicParams = false;
 
@@ -63,7 +64,7 @@ export default async function ProjectPage({
       )}
 
       <div className="prose prose-neutral mt-12 max-w-none prose-headings:font-serif prose-headings:font-medium prose-headings:tracking-tight prose-a:text-forest">
-        <MDXRemote source={entry.body} />
+        <MDXRemote source={entry.body} components={{ Figure }} />
       </div>
 
       <div className="mt-16 border-t border-line pt-8">

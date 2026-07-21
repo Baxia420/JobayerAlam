@@ -19,6 +19,8 @@ export interface ProjectMeta {
   links?: Record<string, string>;
   /** Label shown inside the striped image placeholder, e.g. "project shot". */
   imageLabel?: string;
+  /** Path to the card cover image under /public, e.g. "/projects/aksara/cover.webp". */
+  cover?: string;
 }
 
 export interface ProjectEntry extends ProjectMeta {
@@ -43,6 +45,7 @@ function parseFile(filename: string): ProjectEntry {
     course: data.course,
     links: data.links,
     imageLabel: data.imageLabel,
+    cover: data.cover,
     body: content,
   };
 }

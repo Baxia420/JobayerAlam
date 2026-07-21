@@ -8,6 +8,7 @@ featured: true
 priority: 95
 tags: ["Next.js", "Supabase", "Analytics"]
 imageLabel: "analytics"
+cover: "/projects/qr-generator/cover.webp"
 ---
 
 ## The problem
@@ -18,7 +19,11 @@ I wanted two things from a QR code: to know whether anyone actually scanned it, 
 
 A QR code is never pointed at the destination directly. It encodes a short code on my own domain; that route looks the link up, records the scan, and redirects. Because the destination lives in a row rather than in the printed pixels, I can re-point a code that is already on a poster without reprinting anything.
 
+<Figure src="/projects/qr-generator/qr-generation.webp" caption="Generating a code — the destination is a database row, not baked into the image." />
+
 Every scan is logged with device type, OS, browser, referrer, and coarse location, and the admin dashboard breaks each code down over time. Both hot paths (code lookup on redirect, scan aggregation per link) are indexed, because the redirect sits in front of a human waiting for a page to load.
+
+<Figure src="/projects/qr-generator/analytics.webp" caption="Per-code analytics: scans over time, by device, location and referrer." />
 
 Since the first version it has grown into a small platform: an admin API with per-link management and bulk operations, rate limiting, password-protected links, and a QR customiser.
 
