@@ -43,28 +43,57 @@ export default function SiteEffects() {
             y = my;
             spark.style.opacity = "1";
           }
+          wake();
         };
         window.addEventListener("mousemove", onMove);
 
+        let ticking = false;
+
         const loop = () => {
-          x += (mx - x) * 0.3;
-          y += (my - y) * 0.3;
+          const targetScale = hov ? 1.8 : 1;
+          const dx = mx - x;
+          const dy = my - y;
+          const ds = targetScale - scale;
+
+          if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1 && Math.abs(ds) < 0.005) {
+            x = mx;
+            y = my;
+            scale = targetScale;
+            spark.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%) rotate(${spin}deg) scale(${scale.toFixed(3)})`;
+            ticking = false;
+            return;
+          }
+
+          x += dx * 0.3;
+          y += dy * 0.3;
           spin += (Math.abs(x - lx) + Math.abs(y - ly)) * 0.55;
           lx = x;
           ly = y;
-          scale += ((hov ? 1.8 : 1) - scale) * 0.18;
+          scale += ds * 0.18;
           spark.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%) rotate(${spin}deg) scale(${scale.toFixed(3)})`;
           raf = requestAnimationFrame(loop);
         };
-        loop();
+
+        const wake = () => {
+          if (!ticking) {
+            ticking = true;
+            raf = requestAnimationFrame(loop);
+          }
+        };
 
         const isMag = (t: EventTarget | null) =>
           t instanceof Element && t.closest("a,button,[data-mag]");
         const onOver = (e: MouseEvent) => {
-          if (isMag(e.target)) hov = true;
+          if (isMag(e.target)) {
+            hov = true;
+            wake();
+          }
         };
         const onOut = (e: MouseEvent) => {
-          if (isMag(e.target) && !isMag(e.relatedTarget)) hov = false;
+          if (isMag(e.target) && !isMag(e.relatedTarget)) {
+            hov = false;
+            wake();
+          }
         };
         document.addEventListener("mouseover", onOver);
         document.addEventListener("mouseout", onOut);

@@ -81,6 +81,7 @@ export default function HeroFireworks() {
     let running = false;
     let visible = true;
     let timer: ReturnType<typeof setTimeout> | undefined;
+    const volleyTimers: ReturnType<typeof setTimeout>[] = [];
 
     const explode = (x: number, y: number) => {
       const scale = 0.7 + Math.random() * 1.2;
@@ -186,7 +187,7 @@ export default function HeroFireworks() {
     /** n rockets scattered across `spread` ms so several are airborne at once. */
     const volley = (n: number, spread = 1400) => {
       for (let i = 0; i < n; i++) {
-        setTimeout(launch, Math.random() * spread);
+        volleyTimers.push(setTimeout(launch, Math.random() * spread));
       }
     };
 
@@ -225,6 +226,7 @@ export default function HeroFireworks() {
     return () => {
       clearTimeout(t0);
       clearTimeout(timer);
+      volleyTimers.forEach(clearTimeout);
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();

@@ -32,16 +32,41 @@ const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
 function parseFile(filename: string): ProjectEntry {
   const raw = fs.readFileSync(path.join(CONTENT_DIR, filename), "utf-8");
   const { data, content } = matter(raw);
+
+  const slug = filename.replace(/\.mdx$/, "");
+
+  if (!data.title || typeof data.title !== "string") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'title' is missing or not a string`);
+  }
+  if (!data.description || typeof data.description !== "string") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'description' is missing or not a string`);
+  }
+  if (!data.date || typeof data.date !== "string") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'date' is missing or not a string`);
+  }
+  if (data.type !== "independent" && data.type !== "coursework") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'type' must be "independent" or "coursework", got "${data.type}"`);
+  }
+  if (data.tier !== "flagship" && data.tier !== "archive") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'tier' must be "flagship" or "archive", got "${data.tier}"`);
+  }
+  if (data.priority !== undefined && typeof data.priority !== "number") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'priority' must be a number`);
+  }
+  if (data.tags !== undefined && !Array.isArray(data.tags)) {
+    throw new Error(`Invalid frontmatter in ${slug}: 'tags' must be an array`);
+  }
+
   return {
-    slug: filename.replace(/\.mdx$/, ""),
-    title: data.title ?? "Untitled",
-    description: data.description ?? "",
-    date: data.date ?? "",
-    type: data.type === "coursework" ? "coursework" : "independent",
-    tier: data.tier === "archive" ? "archive" : "flagship",
+    slug,
+    title: data.title,
+    description: data.description,
+    date: data.date,
+    type: data.type,
+    tier: data.tier,
     featured: Boolean(data.featured),
-    priority: Number(data.priority ?? 0),
-    tags: Array.isArray(data.tags) ? data.tags : [],
+    priority: data.priority ?? 0,
+    tags: data.tags ?? [],
     course: data.course,
     links: data.links,
     imageLabel: data.imageLabel,

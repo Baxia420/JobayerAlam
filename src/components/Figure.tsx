@@ -1,10 +1,13 @@
+import sharp from "sharp";
+import path from "path";
+
 /**
  * A captioned screenshot for project write-ups (MDX), framed as a macOS-style
  * browser window to match the project cards: clay / ochre / sage traffic
  * lights, a mono label derived from the file name, and a soft shadow. The
  * `m-0` on the image overrides the prose plugin's default image margins.
  */
-export default function Figure({
+export default async function Figure({
   src,
   caption,
   alt,
@@ -19,6 +22,17 @@ export default function Figure({
       .pop()
       ?.replace(/\.\w+$/, "")
       .replace(/-/g, " ") ?? "";
+
+  let width, height;
+  try {
+    // Determine intrinsic dimensions to prevent layout shift during lazy load
+    const absolutePath = path.join(process.cwd(), "public", src);
+    const metadata = await sharp(absolutePath).metadata();
+    width = metadata.width;
+    height = metadata.height;
+  } catch {
+    // Silently fall back if the image can't be read at build/render time
+  }
 
   return (
     <figure className="my-9">
@@ -37,6 +51,8 @@ export default function Figure({
           alt={alt ?? caption ?? label}
           loading="lazy"
           className="m-0 block w-full"
+          width={width}
+          height={height}
         />
       </div>
       {caption && (

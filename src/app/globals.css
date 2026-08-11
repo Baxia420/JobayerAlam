@@ -43,7 +43,7 @@ body {
 
 /* Custom cursor replaces the native one, only when JS is running and the
    device actually has a fine pointer */
-.js * {
+.js *:not(input, textarea, select, [contenteditable="true"]) {
   cursor: none;
 }
 @media (hover: none) {

@@ -163,7 +163,8 @@ export default function PinnedStatements() {
     // settle and on every resize (the rail also reflows to a row on mobile).
     const relayout = () => {
       layoutRail();
-      render(reduce ? targetProgress() : shown);
+      if (reduce) render(targetProgress());
+      else wake();
     };
     if (document.fonts?.ready) document.fonts.ready.then(relayout);
     window.addEventListener("resize", relayout);
@@ -187,16 +188,30 @@ export default function PinnedStatements() {
     }
 
     let raf = 0;
+    let ticking = false;
     const loop = () => {
       const t = targetProgress();
       shown += (t - shown) * 0.1;
-      if (Math.abs(t - shown) < 0.0004) shown = t;
+      if (Math.abs(t - shown) < 0.0004) {
+        shown = t;
+        render(shown);
+        ticking = false;
+        return;
+      }
       render(shown);
       raf = requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
+    const wake = () => {
+      if (!ticking) {
+        ticking = true;
+        raf = requestAnimationFrame(loop);
+      }
+    };
+    wake();
+    window.addEventListener("scroll", wake, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", wake);
       window.removeEventListener("resize", relayout);
     };
   }, []);
