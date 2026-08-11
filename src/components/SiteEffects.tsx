@@ -17,9 +17,10 @@ import SparkMark from "@/components/SparkMark";
 export default function SiteEffects() {
   useEffect(() => {
     const touch = window.matchMedia("(hover: none)").matches;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const cleanups: (() => void)[] = [];
 
-    if (!touch) {
+    if (!touch && !reduce) {
       const spark = document.getElementById("cur-spark");
       if (spark) {
         let mx = innerWidth / 2,

@@ -53,8 +53,46 @@ function parseFile(filename: string): ProjectEntry {
   if (data.priority !== undefined && typeof data.priority !== "number") {
     throw new Error(`Invalid frontmatter in ${slug}: 'priority' must be a number`);
   }
-  if (data.tags !== undefined && !Array.isArray(data.tags)) {
-    throw new Error(`Invalid frontmatter in ${slug}: 'tags' must be an array`);
+  if (data.tags !== undefined) {
+    if (!Array.isArray(data.tags)) {
+      throw new Error(`Invalid frontmatter in ${slug}: 'tags' must be an array`);
+    }
+    if (!data.tags.every(t => typeof t === "string")) {
+      throw new Error(`Invalid frontmatter in ${slug}: 'tags' array must contain only strings`);
+    }
+  }
+
+  if (data.featured !== undefined && typeof data.featured !== "boolean") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'featured' must be a boolean`);
+  }
+
+  if (data.priority !== undefined) {
+    if (typeof data.priority !== "number" || !Number.isFinite(data.priority)) {
+      throw new Error(`Invalid frontmatter in ${slug}: 'priority' must be a finite number`);
+    }
+  }
+
+  if (data.course !== undefined && typeof data.course !== "string") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'course' must be a string`);
+  }
+
+  if (data.imageLabel !== undefined && typeof data.imageLabel !== "string") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'imageLabel' must be a string`);
+  }
+
+  if (data.cover !== undefined && typeof data.cover !== "string") {
+    throw new Error(`Invalid frontmatter in ${slug}: 'cover' must be a string`);
+  }
+
+  if (data.links !== undefined) {
+    if (typeof data.links !== "object" || data.links === null || Array.isArray(data.links)) {
+      throw new Error(`Invalid frontmatter in ${slug}: 'links' must be a plain object`);
+    }
+    for (const key in data.links) {
+      if (typeof data.links[key] !== "string") {
+        throw new Error(`Invalid frontmatter in ${slug}: 'links' values must be strings`);
+      }
+    }
   }
 
   return {
@@ -64,7 +102,7 @@ function parseFile(filename: string): ProjectEntry {
     date: data.date,
     type: data.type,
     tier: data.tier,
-    featured: Boolean(data.featured),
+    featured: data.featured ?? false,
     priority: data.priority ?? 0,
     tags: data.tags ?? [],
     course: data.course,

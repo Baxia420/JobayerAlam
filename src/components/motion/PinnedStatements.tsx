@@ -159,9 +159,12 @@ export default function PinnedStatements() {
     layoutRail();
     render(shown);
 
+    let disposed = false;
+
     // Rail geometry depends on rendered dot positions: recompute once fonts
     // settle and on every resize (the rail also reflows to a row on mobile).
     const relayout = () => {
+      if (disposed) return;
       layoutRail();
       if (reduce) render(targetProgress());
       else wake();
@@ -171,10 +174,12 @@ export default function PinnedStatements() {
 
     if (reduce) {
       let ticking = false;
+      let reduceRaf = 0;
       const onScroll = () => {
         if (ticking) return;
         ticking = true;
-        requestAnimationFrame(() => {
+        reduceRaf = requestAnimationFrame(() => {
+          if (disposed) return;
           render(targetProgress());
           ticking = false;
         });
@@ -182,6 +187,8 @@ export default function PinnedStatements() {
       window.addEventListener("scroll", onScroll, { passive: true });
       onScroll();
       return () => {
+        disposed = true;
+        cancelAnimationFrame(reduceRaf);
         window.removeEventListener("scroll", onScroll);
         window.removeEventListener("resize", relayout);
       };
@@ -202,7 +209,7 @@ export default function PinnedStatements() {
       raf = requestAnimationFrame(loop);
     };
     const wake = () => {
-      if (!ticking) {
+      if (!ticking && !disposed) {
         ticking = true;
         raf = requestAnimationFrame(loop);
       }
@@ -210,6 +217,7 @@ export default function PinnedStatements() {
     wake();
     window.addEventListener("scroll", wake, { passive: true });
     return () => {
+      disposed = true;
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", wake);
       window.removeEventListener("resize", relayout);

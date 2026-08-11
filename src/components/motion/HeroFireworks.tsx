@@ -81,7 +81,8 @@ export default function HeroFireworks() {
     let running = false;
     let visible = true;
     let timer: ReturnType<typeof setTimeout> | undefined;
-    const volleyTimers: ReturnType<typeof setTimeout>[] = [];
+    const volleyTimers = new Set<ReturnType<typeof setTimeout>>();
+    let disposed = false;
 
     const explode = (x: number, y: number) => {
       const scale = 0.7 + Math.random() * 1.2;
@@ -165,7 +166,7 @@ export default function HeroFireworks() {
       }
     };
     const wake = () => {
-      if (!running) {
+      if (!running && !disposed) {
         running = true;
         raf = requestAnimationFrame(step);
       }
@@ -186,8 +187,13 @@ export default function HeroFireworks() {
     };
     /** n rockets scattered across `spread` ms so several are airborne at once. */
     const volley = (n: number, spread = 1400) => {
+      if (disposed) return;
       for (let i = 0; i < n; i++) {
-        volleyTimers.push(setTimeout(launch, Math.random() * spread));
+        const id = setTimeout(() => {
+          volleyTimers.delete(id);
+          launch();
+        }, Math.random() * spread);
+        volleyTimers.add(id);
       }
     };
 
@@ -224,9 +230,11 @@ export default function HeroFireworks() {
     document.addEventListener("click", onEgg);
 
     return () => {
+      disposed = true;
       clearTimeout(t0);
       clearTimeout(timer);
       volleyTimers.forEach(clearTimeout);
+      volleyTimers.clear();
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
