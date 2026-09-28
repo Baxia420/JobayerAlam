@@ -7,8 +7,8 @@ import SparkMark from "@/components/SparkMark";
 
 const links = [
   { href: "/projects", label: "Projects" },
+  { href: "/#experience", label: "Experience" },
   { href: "/about", label: "About" },
-  { href: "/involvement", label: "Involvement" },
   { href: "/resume", label: "Resume" },
 ];
 
@@ -16,8 +16,10 @@ export default function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(href + "/");
+  const isActive = (href: string) => {
+    if (href.startsWith("/#")) return false;
+    return pathname === href || (href !== "/" && pathname.startsWith(href + "/"));
+  };
 
   return (
     <header className="sticky top-0 z-[100] border-b border-line bg-cream">
@@ -52,7 +54,7 @@ export default function Nav() {
             href="/contact"
             className="rounded-full bg-forest px-[18px] py-[9px] text-[13px] font-medium text-cream transition-colors hover:bg-forest-deep"
           >
-            Get in touch
+            Contact
           </Link>
         </div>
 
@@ -69,7 +71,7 @@ export default function Nav() {
 
       {open && (
         <ul id="mobile-nav" className="border-t border-line px-7 py-4 sm:hidden">
-          {[...links, { href: "/contact", label: "Get in touch" }].map(
+          {[...links, { href: "/contact", label: "Contact" }].map(
             (link) => (
               <li key={link.href}>
                 <Link
