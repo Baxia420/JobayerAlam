@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-export type EntryType = "independent" | "coursework";
+export type EntryType = "independent" | "coursework" | "hackathon";
 export type EntryTier = "flagship" | "archive";
 
 export interface ProjectMeta {
@@ -44,10 +44,25 @@ function parseFile(filename: string): ProjectEntry {
   if (!data.date || typeof data.date !== "string") {
     throw new Error(`Invalid frontmatter in ${slug}: 'date' is missing or not a string`);
   }
-  if (data.type !== "independent" && data.type !== "coursework") {
-    throw new Error(`Invalid frontmatter in ${slug}: 'type' must be "independent" or "coursework", got "${data.type}"`);
+  const rawType = String(data.type || "").toLowerCase().trim();
+  let entryType: EntryType;
+  if (rawType.includes("hackathon")) {
+    entryType = "hackathon";
+  } else if (rawType.includes("coursework")) {
+    entryType = "coursework";
+  } else if (rawType.includes("independent")) {
+    entryType = "independent";
+  } else {
+    throw new Error(`Invalid frontmatter in ${slug}: 'type' must be "independent", "coursework", or "hackathon", got "${data.type}"`);
   }
-  if (data.tier !== "flagship" && data.tier !== "archive") {
+
+  const rawTier = String(data.tier || "").toLowerCase().trim();
+  let entryTier: EntryTier;
+  if (rawTier.includes("archive")) {
+    entryTier = "archive";
+  } else if (rawTier.includes("flagship")) {
+    entryTier = "flagship";
+  } else {
     throw new Error(`Invalid frontmatter in ${slug}: 'tier' must be "flagship" or "archive", got "${data.tier}"`);
   }
   if (data.priority !== undefined && typeof data.priority !== "number") {
@@ -100,8 +115,8 @@ function parseFile(filename: string): ProjectEntry {
     title: data.title,
     description: data.description,
     date: data.date,
-    type: data.type,
-    tier: data.tier,
+    type: entryType,
+    tier: entryTier,
     featured: data.featured ?? false,
     priority: data.priority ?? 0,
     tags: data.tags ?? [],

@@ -58,10 +58,9 @@ export default function Home() {
               className="mt-[52px] flex flex-wrap items-start justify-between gap-8 border-t border-line pt-[30px]"
             >
               <p className="max-w-[460px] text-lg leading-[1.65] text-ink-soft">
-                Independent projects, university coursework, and community
-                work, all in one place. Still deciding between front-end,
-                back-end, and everything in between, and building my way to
-                the answer.
+                I build web applications, AI-powered products, and interactive
+                experiences — handling everything from system design to
+                implementation.
               </p>
               <div className="flex flex-wrap gap-3.5">
                 <Link
@@ -116,6 +115,200 @@ export default function Home() {
         </Reveal>
       </section>
 
+      <section id="services" className="mx-auto max-w-[1080px] border-t border-line px-7 py-[104px]">
+        <Reveal className="mb-4">
+          <SectionHeading index="02" eyebrow="What I offer">
+            Services
+          </SectionHeading>
+        </Reveal>
+
+        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-3">
+          <Reveal>
+            <div className="flex h-full flex-col justify-between rounded-xl border border-line bg-cream-deep p-7">
+              <div>
+                <span className="font-serif text-2xl italic text-ink/20">01</span>
+                <h3 className="mt-4 font-serif text-2xl font-medium tracking-[-0.01em]">
+                  Web Development
+                </h3>
+                <p className="mt-3 text-base leading-[1.6] text-ink-soft">
+                  Modern responsive websites and full-stack applications.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="flex h-full flex-col justify-between rounded-xl border border-line bg-cream-deep p-7">
+              <div>
+                <span className="font-serif text-2xl italic text-ink/20">02</span>
+                <h3 className="mt-4 font-serif text-2xl font-medium tracking-[-0.01em]">
+                  AI Integration
+                </h3>
+                <p className="mt-3 text-base leading-[1.6] text-ink-soft">
+                  Adding AI-powered features and automation into software products.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="flex h-full flex-col justify-between rounded-xl border border-line bg-cream-deep p-7">
+              <div>
+                <span className="font-serif text-2xl italic text-ink/20">03</span>
+                <h3 className="mt-4 font-serif text-2xl font-medium tracking-[-0.01em]">
+                  Custom Software
+                </h3>
+                <p className="mt-3 text-base leading-[1.6] text-ink-soft">
+                  Building tools and platforms based on specific requirements.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="experience" className="mx-auto max-w-[1080px] border-t border-line px-7 py-[104px]">
+        <Reveal className="mb-4">
+          <SectionHeading index="03" eyebrow="Work history">
+            Experience
+          </SectionHeading>
+        </Reveal>
+
+        <div className="mt-12">
+          <Reveal>
+            <div className="rounded-xl border border-line bg-cream-deep p-8">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <div>
+                  <h3 className="font-serif text-2xl font-medium tracking-[-0.01em]">
+                    Software Development Intern
+                  </h3>
+                  <p className="mt-1 font-medium text-forest">Narmaa Transport</p>
+                </div>
+                <span className="font-mono text-sm text-ink-soft">2025</span>
+              </div>
+              <p className="mt-4 text-base leading-[1.6] text-ink-soft">
+                Developed and deployed the company&rsquo;s website by converting business requirements into a customer-facing digital platform.
+              </p>
+              <ul className="mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-2 text-sm text-ink-soft">
+                <li className="flex items-center gap-2.5">
+                  <span className="h-1.5 w-1.5 flex-none rounded-full bg-forest" />
+                  Developed website pages
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <span className="h-1.5 w-1.5 flex-none rounded-full bg-forest" />
+                  Created responsive layouts
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <span className="h-1.5 w-1.5 flex-none rounded-full bg-forest" />
+                  Implemented enquiry flows
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <span className="h-1.5 w-1.5 flex-none rounded-full bg-forest" />
+                  Deployed production website
+                </li>
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="achievements" className="mx-auto max-w-[1080px] border-t border-line px-7 py-[104px]">
+        <Reveal className="mb-4">
+          <SectionHeading index="04" eyebrow="Recognition">
+            Achievements
+          </SectionHeading>
+        </Reveal>
+
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <Reveal>
+            <div className="flex h-full flex-col justify-between rounded-xl border border-line bg-cream-deep p-7">
+              <div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-forest">
+                    Hackathon
+                  </span>
+                  <span className="rounded-full bg-forest/10 px-2.5 py-0.5 text-xs font-medium text-forest">
+                    Top 5 Finalist
+                  </span>
+                </div>
+                <h3 className="mt-3.5 font-serif text-2xl font-medium tracking-[-0.01em]">
+                  Tencent Hackathon 2026
+                </h3>
+                <p className="mt-2.5 text-sm leading-[1.6] text-ink-soft">
+                  Developed Unsaid, an AI-powered cinematic conversation game as a solo developer.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="flex h-full flex-col justify-between rounded-xl border border-line bg-cream-deep p-7">
+              <div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-forest">
+                    Hackathon
+                  </span>
+                  <span className="rounded-full bg-forest/10 px-2.5 py-0.5 text-xs font-medium text-forest">
+                    Top 5 Finalist
+                  </span>
+                </div>
+                <h3 className="mt-3.5 font-serif text-2xl font-medium tracking-[-0.01em]">
+                  UTM Hackathon 2026
+                </h3>
+                <p className="mt-2.5 text-sm leading-[1.6] text-ink-soft">
+                  Developed Moonblade, a browser-based 2D action game without using a game engine.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="flex h-full flex-col justify-between rounded-xl border border-line bg-cream-deep p-7">
+              <div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-forest">
+                    Academic
+                  </span>
+                  <span className="rounded-full bg-forest/10 px-2.5 py-0.5 text-xs font-medium text-forest">
+                    Dean&rsquo;s List 2×
+                  </span>
+                </div>
+                <h3 className="mt-3.5 font-serif text-2xl font-medium tracking-[-0.01em]">
+                  Dean&rsquo;s List Recipient
+                </h3>
+                <p className="mt-1 text-sm font-medium text-ink-soft">
+                  Universiti Teknologi Malaysia
+                </p>
+                <p className="mt-2.5 text-sm leading-[1.6] text-ink-soft">
+                  Received Dean&rsquo;s List recognition twice. Current CGPA: 3.71 / 4.00
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="flex h-full flex-col justify-between rounded-xl border border-line bg-cream-deep p-7">
+              <div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-forest">
+                    Language
+                  </span>
+                  <span className="rounded-full bg-forest/10 px-2.5 py-0.5 text-xs font-medium text-forest">
+                    Band 8.0
+                  </span>
+                </div>
+                <h3 className="mt-3.5 font-serif text-2xl font-medium tracking-[-0.01em]">
+                  IELTS Academic
+                </h3>
+                <p className="mt-2.5 text-sm leading-[1.6] text-ink-soft">
+                  Overall Band Score: 8.0
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       <PinnedStatements />
 
       <section
@@ -123,7 +316,7 @@ export default function Home() {
         className="mx-auto max-w-[1080px] px-7 pb-10 pt-[120px]"
       >
         <Reveal>
-          <SectionHeading index="02" eyebrow="Get in touch">
+          <SectionHeading index="05" eyebrow="Get in touch">
             Let&rsquo;s talk.
           </SectionHeading>
         </Reveal>
@@ -139,8 +332,7 @@ export default function Home() {
             </span>
           </a>
           <p className="mt-[26px] max-w-xl text-[17px] leading-[1.6] text-ink-soft">
-            Open to internships, collaborations, and good conversations about
-            software.
+            Available for freelance projects, internships, and collaborations.
           </p>
         </Reveal>
       </section>

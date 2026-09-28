@@ -10,9 +10,15 @@ export const metadata: Metadata = {
 };
 
 const rightNow = [
-  { label: "Studying", value: "[Current semester / notable course]" },
-  { label: "Building", value: "[What you're currently building]" },
-  { label: "Looking for", value: "Internships and mentorship" },
+  {
+    label: "Studying",
+    value: "Software Engineering at Universiti Teknologi Malaysia",
+  },
+  { label: "Building", value: "ClawFit & AI-powered applications" },
+  {
+    label: "Looking for",
+    value: "Freelance projects & software engineering internships",
+  },
 ];
 
 export default function AboutPage() {
@@ -25,7 +31,7 @@ export default function AboutPage() {
         <Reveal>
           <Eyebrow className="mb-3.5">About</Eyebrow>
           <h1 className="max-w-[16ch] font-display text-[clamp(3rem,9vw,6rem)] leading-[0.96] tracking-[-0.02em]">
-            Second semester in, building fast.
+            Building complete software, end to end.
           </h1>
         </Reveal>
       </section>
@@ -36,27 +42,27 @@ export default function AboutPage() {
           <div className="flex flex-col gap-6">
             <Reveal>
               <p className="text-[19px] leading-[1.7] text-ink-soft">
-                [Replace with your real bio: 2-3 short paragraphs. Where
-                you&rsquo;re studying, what pulled you into software
-                engineering, and what you&rsquo;re currently building or
-                learning.]
+                I&rsquo;m Jobayer Alam, a software engineering student at
+                Universiti Teknologi Malaysia. I build complete software
+                products from idea to implementation — spanning web
+                applications, AI-powered systems, and interactive experiences.
               </p>
             </Reveal>
             <Reveal>
               <p className="text-[19px] leading-[1.7] text-ink-soft">
-                I haven&rsquo;t picked a lane yet, whether front-end, back-end,
-                or full-stack, and I&rsquo;m treating that as a feature, not a
-                bug. My independent projects push my engineering skills, and my
-                coursework stretches wider: designing network topologies,
-                drawing technical plans, even running a statistics survey from
-                methodology to analysis. All of it sharpens how I think about
-                systems and data, not just code.
+                My work bridges frontend engineering, backend services, and
+                system design. Whether building full-stack platforms like
+                ClawFit, developing production client websites like Narmaa
+                Transport, or competing in hackathons, I enjoy working through
+                the entire development lifecycle.
               </p>
             </Reveal>
             <Reveal>
               <p className="text-[19px] leading-[1.7] text-ink-soft">
-                Outside of class I volunteer. Showing up consistently matters
-                to me as much as shipping.
+                I learn by building real products and solving concrete
+                constraints. I&rsquo;m always interested in freelance
+                opportunities, engineering internships, and collaborating on
+                ambitious software projects.
               </p>
             </Reveal>
 

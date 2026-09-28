@@ -21,9 +21,8 @@ export default function ContactPage() {
             Say hello.
           </h1>
           <p className="mt-[26px] max-w-[52ch] text-lg leading-[1.65] text-ink-soft">
-            Internships, project feedback, or just a good conversation: my
-            inbox is open. The form below lands straight in it, or email me
-            directly at{" "}
+            Available for freelance projects, internships, and collaborations.
+            The form below lands straight in my inbox, or email me directly at{" "}
             <a
               href="mailto:jobayermahin@gmail.com"
               className="text-forest underline decoration-forest/40 underline-offset-4"

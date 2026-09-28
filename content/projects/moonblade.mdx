@@ -1,23 +1,28 @@
 ---
 title: "Moonblade"
-description: "A hackathon action game built on a bare canvas: no engine, no framework, one weekend."
+description: "A browser-based 2D action game developed without using a game engine."
 date: "2026-02-14"
-type: independent
+type: hackathon
 tier: flagship
-featured: false
-priority: 75
+featured: true
+priority: 80
 tags: ["JavaScript", "Canvas", "Game dev", "Hackathon"]
 imageLabel: "gameplay"
 cover: "/projects/moonblade/cover.webp"
 ---
 
-## The problem
+## Overview
 
-A hackathon, a team of three, and a weekend. We wanted a game with an actual story rather than a mechanic demo: a samurai chasing the person who burned his city, told across four scenes with cutscenes, dialogue and boss fights. I wrote most of the code and the story; a teammate did the pixel art.
+Moonblade is a browser-based 2D action game developed from scratch on a raw HTML5 canvas without using an external game engine or third-party physics libraries. Built for the UTM Hackathon 2026, the game achieved a **Top 5 Finalist** ranking as a solo developer project.
 
-## What I built
+## What I Built
 
-A 2D action game running on a raw canvas with no engine and no libraries. The engine is split by concern rather than dumped in one file: core loop, rendering, entities, bosses, campaign, UI, cutscenes, and bootstrap. The campaign moves through a burning city, frozen foothills and a dawn at Mount Fuji, with two mini-bosses and a final duel, parallax background layers, a portrait-driven dialogue system and scripted cutscenes.
+As the solo developer, I built the entire game architecture and runtime systems from the ground up:
+
+- **Gameplay Systems:** Custom game loop with fixed-timestep physics, velocity integration, frame-rate independent delta timing, and collision detection.
+- **Combat Mechanics:** Hitbox and hurtbox calculations, attack timing windows, combo chains, parry mechanics, and distinct boss attack patterns.
+- **UI & Presentation:** Health bars, status indicators, portrait-driven dialogue sequences, and scripted cutscenes rendered directly onto the canvas.
+- **Progression Systems:** Multi-stage campaign progression moving through burning landscapes, frozen foothills, and dawn at Mount Fuji, featuring two distinct mini-bosses and a final boss duel.
 
 <Figure src="/projects/moonblade/level.webp" caption="A campaign level — parallax layers and the samurai protagonist." />
 
@@ -31,12 +36,12 @@ The two mini-bosses guard the frozen and burning stretches of the journey before
 
 ## Decisions and trade-offs
 
-**Every asset is optional.** The single best decision we made. The art was being drawn while the code was being written, so the loader treats every background and portrait as optional: if a file is missing it silently falls back to a procedurally drawn placeholder. The game is never broken, it is just less pretty, which meant the artist and I were never blocked on each other for a single minute of a weekend where minutes were the whole budget.
+**Zero external dependencies.** Building on bare canvas without heavy game engines meant zero load-time overhead, immediate start-up in any browser, and total control over loop scheduling and rendering layers.
 
-**Split the engine on day one.** Numbered modules with clear responsibilities felt like over-engineering for a weekend project, right up until three people needed to edit the game at the same time without stepping on each other.
+**Modular architecture from day one.** Splitting the codebase into distinct modules—core loop, rendering, entities, bosses, campaign state, UI, and cutscenes—prevented spaghetti code and allowed fast iteration within hackathon deadlines.
 
-**Data-driven scenes.** Backgrounds, parallax rates and blend modes are declared in a table rather than hard-coded per scene, so adding a section was a data change.
+**Data-driven scene configuration.** Backgrounds, parallax scroll rates, dialogue scripts, and enemy encounter timings were structured into configuration tables rather than hardcoded logic, making narrative pacing changes straightforward.
 
 ## What I learned
 
-Writing an engine from nothing teaches you what engines actually do for you: the loop, the timing, the layering, the asset pipeline. But the real lesson was about collaboration under a deadline. Designing for missing assets was not a graphics decision, it was a team decision, and it is the reason we shipped something with a beginning, middle and end instead of a tech demo.
+Writing an engine from scratch demystifies core game architecture: the fixed-timestep loop, velocity dampening, sprite layering, and state dispatching. Building it solo under hackathon time constraints highlighted the importance of clean component boundaries and prioritizing core gameplay feel over visual fluff.

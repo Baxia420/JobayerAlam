@@ -5,24 +5,24 @@ import { useEffect, useRef } from "react";
 const statements = [
   {
     label: "Independent",
-    lead: "I ship what I start.",
-    sub: "The work I care about most is the work nobody assigned. I build it outside of class, and I see it through.",
+    lead: "I build beyond assignments.",
+    sub: "The work I care about most is the work nobody assigned. I learn by building complete products and seeing them through to production.",
     motif: "plane",
     cap: "shipped",
   },
   {
-    label: "Academic",
-    lead: "I learn past the syllabus.",
-    sub: "Systems, networks, data, design. I follow the parts of the field that reach beyond writing code.",
+    label: "Engineering",
+    lead: "I learn by creating real products.",
+    sub: "Systems design, architecture, and deployment. Working through real-world constraints teaches more than theory alone.",
     motif: "venn",
     cap: "breadth",
   },
   {
-    label: "Community",
-    lead: "I show up in person.",
-    sub: "Some of what matters never ships as code. I make time for the work that happens off the keyboard.",
+    label: "End-to-end",
+    lead: "I build across the full process.",
+    sub: "I enjoy working across the entire development process, from understanding problems to building usable software.",
     motif: "people",
-    cap: "presence",
+    cap: "delivery",
   },
 ] as const;
 

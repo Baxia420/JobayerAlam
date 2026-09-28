@@ -1,0 +1,42 @@
+---
+title: "Unsaid"
+description: "An AI-powered cinematic conversation game where player choices influence conversations and story progression."
+date: "2026-02-28"
+type: hackathon
+tier: flagship
+featured: true
+priority: 85
+tags: ["AI", "Game Development", "Frontend", "Backend"]
+imageLabel: "conversation game"
+---
+
+## Overview
+
+Unsaid is an AI-powered cinematic conversation game where player dialogue choices directly shape character emotions, dialogue branches, and narrative progression. Built as a solo developer submission for the Tencent Hackathon 2026, the game explores dynamic interpersonal tension through responsive character interactions rather than pre-scripted static decision trees.
+
+## Achievement
+
+**Top 5 Finalist — Tencent Hackathon 2026**  
+Developed end-to-end as a solo developer, covering game concept, narrative design, AI systems integration, frontend presentation, and backend services.
+
+## Concept & Narrative Progression
+
+In conventional narrative games, choices funnel into a handful of predefined paths. In Unsaid, the conversation state is dynamic: every response from the player updates underlying character disposition meters (trust, hesitation, defensiveness) and prompts the AI character model to respond with contextually grounded emotional nuances.
+
+The narrative advances through distinct dramatic beats that react to the tone and history of the conversation, producing divergent outcomes based on subtle conversational shifts.
+
+## What I Built
+
+As a solo developer, I handled the entire design and engineering cycle:
+
+- **AI Conversation System:** Implemented prompt engineering pipelines with strict schema constraints to keep LLM-driven character personas in character while generating structured response payloads containing dialogue, emotional cues, and disposition updates.
+- **Narrative Progression Engine:** Designed a state machine that tracks conversational memory, key narrative triggers, and threshold conditions required to unlock story branches.
+- **Game Logic:** Built state-tracking logic that ensures dialogue progression stays paced and coherent, preventing repetitive replies or out-of-context hallucinations.
+- **Frontend & Visual Presentation:** Crafted a cinematic, distraction-free conversational UI featuring responsive typography, dialogue pacing delays, and character mood visual cues.
+- **Backend Architecture:** Built a server runtime that manages session state, caches dialogue context history, and securely interfaces with AI model APIs with sub-second latency targets.
+
+## Technical Implementation
+
+- **Frontend:** Built with responsive TypeScript components, creating a cinematic dialogue interface that emphasizes pacing, typography, and mood indicators.
+- **Backend Services:** Orchestrates conversational state management and handles token-optimized context windows sent to AI endpoints.
+- **AI Integration:** Implements structured JSON output formatting from language model APIs to parse dialogue, tone vectors, and narrative progression flags deterministically.

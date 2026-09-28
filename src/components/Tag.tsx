@@ -1,5 +1,6 @@
 const styles = {
   independent: "bg-forest text-cream",
+  hackathon: "bg-forest text-cream",
   coursework: "border border-forest text-forest",
   plain: "border border-line text-ink-soft",
 } as const;

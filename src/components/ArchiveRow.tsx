@@ -33,7 +33,11 @@ export default function ArchiveRow({
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <Tag variant={project.type}>
-              {project.type === "independent" ? "Independent" : "Coursework"}
+              {project.type === "independent"
+                ? "Independent"
+                : project.type === "hackathon"
+                ? "Hackathon"
+                : "Coursework"}
             </Tag>
             {project.tags.map((tag) => (
               <Tag key={tag}>{tag}</Tag>

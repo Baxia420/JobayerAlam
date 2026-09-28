@@ -20,7 +20,7 @@ export default function Footer() {
               Email
             </a>
             <a
-              href="https://github.com/your-username"
+              href="https://github.com/Baxia420"
               target="_blank"
               rel="noopener noreferrer"
               className="text-cream/80 transition-colors hover:text-cream"
@@ -28,7 +28,7 @@ export default function Footer() {
               GitHub
             </a>
             <a
-              href="https://www.linkedin.com/in/your-username"
+              href="https://www.linkedin.com/in/[your-username]"
               target="_blank"
               rel="noopener noreferrer"
               className="text-cream/80 transition-colors hover:text-cream"

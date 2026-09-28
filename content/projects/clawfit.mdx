@@ -1,0 +1,37 @@
+---
+title: "ClawFit"
+description: "An AI-assisted fitness platform for tracking meals, nutrition, workouts, and health data."
+date: "2026-03-20"
+type: independent
+tier: flagship
+featured: true
+priority: 100
+tags: ["Next.js", "TypeScript", "Fastify", "PostgreSQL", "AI"]
+imageLabel: "fitness platform"
+---
+
+## Overview
+
+ClawFit is an AI-assisted fitness and health platform designed to simplify daily nutrition and workout tracking. Instead of forcing users to manually look up nutritional breakdowns for every ingredient or navigate convoluted multi-tier forms, the platform lets users log meals through natural language and image analysis, maintaining unified logs for calories, macronutrients, and exercise routines.
+
+## Problem
+
+Tracking daily nutrition and exercise is notoriously high-friction. Traditional fitness applications demand that users search extensive databases, weigh individual items, and manually input serving sizes for every single meal. When logging a meal takes several minutes, consistency drops rapidly. 
+
+Most people do not stop tracking because they lack motivation; they stop because the input mechanics are tedious and disconnected from how people actually eat and train.
+
+## What I Built
+
+I developed ClawFit as an end-to-end full-stack application covering user interfaces, server-side APIs, database modeling, and AI processing pipelines:
+
+- **Frontend Application:** A responsive interface built with Next.js and TypeScript, focused on fast input, clear daily dashboard summaries, and real-time feedback for nutrient targets.
+- **Backend APIs:** A dedicated REST API service built with Fastify, handling user sessions, daily log aggregation, and structured payloads for AI ingestion.
+- **Database Architecture:** A relational schema designed in PostgreSQL to maintain consistent records of user profiles, daily caloric targets, meal entries, food breakdown components, and workout logs with foreign-key integrity.
+- **AI Meal Analysis Features:** An ingestion pipeline that parses free-form text descriptions and meal photos using AI APIs, extracting estimated macro distributions (proteins, carbs, fats) and calorie counts into structured database records.
+
+## Technical Implementation
+
+- **Next.js & TypeScript:** Power the frontend with typed components, responsive layouts, and client-side form validation to ensure fast UI updates.
+- **Fastify:** Chosen for the backend service due to its low overhead, schema-based request validation, and predictable routing performance.
+- **PostgreSQL:** Stores structured nutrition data, workout logs, and user targets with relational constraints and indexing on date ranges for fast retrieval.
+- **AI APIs:** Process user inputs into normalized JSON schemas before records are committed to the database, ensuring incoming AI responses adhere to strict types.

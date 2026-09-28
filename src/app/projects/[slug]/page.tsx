@@ -36,7 +36,11 @@ export default async function ProjectPage({
     <article className="mx-auto max-w-3xl px-6 py-20">
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <Tag variant={entry.type}>
-          {entry.type === "independent" ? "Independent" : "Coursework"}
+          {entry.type === "independent"
+            ? "Independent"
+            : entry.type === "hackathon"
+            ? "Hackathon"
+            : "Coursework"}
         </Tag>
         {entry.course && <Tag>{entry.course}</Tag>}
         <span className="text-sm text-ink-soft">{entry.date.slice(0, 7)}</span>
