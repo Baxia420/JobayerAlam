@@ -13,16 +13,30 @@ cover: "/projects/moonblade/cover.webp"
 
 ## Overview
 
-Moonblade is a browser-based 2D action game developed from scratch on a raw HTML5 canvas without using an external game engine or third-party physics libraries. Built for the UTM Hackathon 2026, the game achieved a **Top 5 Finalist** ranking as a solo developer project.
+Moonblade is a browser-based 2D action combat game engineered from the ground up using raw HTML5 Canvas and vanilla JavaScript, without relying on third-party game engines or physics libraries. Built as a solo developer submission for the UTM Hackathon 2026, the project earned a **Top 5 Finalist** ranking.
 
-## What I Built
+The project demonstrates low-level systems programming in the browser: managing a custom game loop, deterministic fixed-timestep physics, velocity integration, sprite state management, and multi-phase boss fight state machines.
 
-As the solo developer, I built the entire game architecture and runtime systems from the ground up:
+## Problem
 
-- **Gameplay Systems:** Custom game loop with fixed-timestep physics, velocity integration, frame-rate independent delta timing, and collision detection.
-- **Combat Mechanics:** Hitbox and hurtbox calculations, attack timing windows, combo chains, parry mechanics, and distinct boss attack patterns.
-- **UI & Presentation:** Health bars, status indicators, portrait-driven dialogue sequences, and scripted cutscenes rendered directly onto the canvas.
-- **Progression Systems:** Multi-stage campaign progression moving through burning landscapes, frozen foothills, and dawn at Mount Fuji, featuring two distinct mini-bosses and a final boss duel.
+Modern web game development often leans on heavy engines like Phaser, Pixi.js, or Unity WebGL exports. While powerful, these frameworks introduce substantial bundle overhead, multi-second loading screens, and abstracted physics engines that make fine-grained control over attack frames and parry timing difficult to customize.
+
+For a fast-paced samurai action game, combat responsiveness is everything. Even slight frame pacing hiccups or imprecise collision boxes destroy the feeling of impact. The challenge was to build a fluid, zero-dependency 60 FPS combat game that loads instantaneously in any modern browser while supporting multi-layered parallax environments, scripted cutscenes, and complex enemy AI.
+
+## Approach
+
+Rather than adapting an off-the-shelf engine, I implemented a bare-metal game architecture centered around three engineering principles:
+
+1. **Fixed-Timestep Physics Loop:** Decoupled game simulation updates from browser render calls using an accumulator-based fixed-timestep pattern (`1/60s`), guaranteeing consistent movement physics and collision checks regardless of device monitor refresh rates (60Hz, 120Hz, or 144Hz).
+2. **Deterministic Hitbox / Hurtbox Pipeline:** Built frame-accurate attack active windows with directional knockback vectors and parry frames, allowing precise melee interactions.
+3. **Data-Driven Level &amp; Boss Configurations:** Decoupled animation frames, enemy attack tables, dialogue triggers, and parallax scroll coefficients into structured data objects rather than hardcoded imperative logic.
+
+## Technical Implementation
+
+- **Custom Game Engine Loop:** Implemented a `requestAnimationFrame` loop that calculates elapsed delta time, feeding an accumulator to run fixed physics updates (`dt = 16.67ms`) before interpolating render states.
+- **Combat &amp; Collision Systems:** Programmed Axis-Aligned Bounding Box (AABB) intersection algorithms optimized for spatial sorting, distinct attack hitbox lifecycles, invulnerability frames, and combo chaining mechanics.
+- **Entity &amp; Enemy AI State Machines:** Built modular finite-state machines for player actions (idle, dash, slash, parry, hurt) and boss behaviors. Bosses dynamically alternate between gap-closers, area-of-effect telegraphs, and defensive stances based on player distance.
+- **Canvas Rendering &amp; Parallax:** Developed a multi-layered 2D rendering pipeline featuring background parallax scrolling, dynamic camera bounds with screen shake, and custom canvas-rendered UI elements (health meters, dialogue overlays, portrait cutscenes).
 
 <Figure src="/projects/moonblade/level.webp" caption="A campaign level — parallax layers and the samurai protagonist." />
 
@@ -34,14 +48,14 @@ The two mini-bosses guard the frozen and burning stretches of the journey before
 
 <Figure src="/projects/moonblade/main-boss.webp" caption="Lord Kurogane — the final duel." />
 
-## Decisions and trade-offs
+## Challenges
 
-**Zero external dependencies.** Building on bare canvas without heavy game engines meant zero load-time overhead, immediate start-up in any browser, and total control over loop scheduling and rendering layers.
+- **Frame Pacing &amp; Delta Timing:** High-refresh-rate displays (120Hz/144Hz) caused player movement to accelerate wildly under naive delta-time updates. Transitioning to a strict fixed-timestep update loop with render state interpolation resolved timing inconsistencies and eliminated physics tunneling through platforms.
+- **Hitbox Accuracy Without External Physics:** Detecting high-speed sword slashes without relying on physics engines required calculating swept bounding volumes to prevent attacks from clipping past fast-moving enemies between frames.
+- **Solo Scope Management Under Hackathon Deadlines:** Building an engine, authoring sprite animations, scripting three boss encounters, and balancing combat feel solo within a tight hackathon window required strict prioritization of core gameplay mechanics over secondary visual flourishes.
 
-**Modular architecture from day one.** Splitting the codebase into distinct modules—core loop, rendering, entities, bosses, campaign state, UI, and cutscenes—prevented spaghetti code and allowed fast iteration within hackathon deadlines.
+## Outcome
 
-**Data-driven scene configuration.** Backgrounds, parallax scroll rates, dialogue scripts, and enemy encounter timings were structured into configuration tables rather than hardcoded logic, making narrative pacing changes straightforward.
-
-## What I learned
-
-Writing an engine from scratch demystifies core game architecture: the fixed-timestep loop, velocity dampening, sprite layering, and state dispatching. Building it solo under hackathon time constraints highlighted the importance of clean component boundaries and prioritizing core gameplay feel over visual fluff.
+- **Top 5 Finalist at UTM Hackathon 2026**, built and submitted entirely as a solo developer.
+- Engineered a lightweight, zero-dependency browser action game that starts instantly with 60 FPS performance across modern desktop browsers.
+- Delivered a complete three-stage campaign featuring two mini-bosses, a climactic final boss encounter, and responsive swordplay mechanics.

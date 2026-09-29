@@ -6,37 +6,64 @@ type: hackathon
 tier: flagship
 featured: true
 priority: 85
-tags: ["AI", "Game Development", "Frontend", "Backend"]
+tags: ["AI", "TypeScript", "Game dev", "Hackathon"]
 imageLabel: "conversation game"
 ---
 
 ## Overview
 
-Unsaid is an AI-powered cinematic conversation game where player dialogue choices directly shape character emotions, dialogue branches, and narrative progression. Built as a solo developer submission for the Tencent Hackathon 2026, the game explores dynamic interpersonal tension through responsive character interactions rather than pre-scripted static decision trees.
+Unsaid is an AI-powered cinematic conversation game where player dialogue choices directly shape character emotions, dialogue branches, and narrative progression. Built as a solo developer project for the Tencent Hackathon 2026, the game achieved a **Top 5 Finalist** ranking.
 
-## Achievement
+Rather than relying on static pre-scripted decision trees or unconstrained chatbot generation, Unsaid combines a deterministic narrative state machine with prompt-engineered LLM character personas, maintaining interpersonal tension and consistent dramatic pacing in real time.
 
-**Top 5 Finalist — Tencent Hackathon 2026**  
-Developed end-to-end as a solo developer, covering game concept, narrative design, AI systems integration, frontend presentation, and backend services.
+## Problem
 
-## Concept & Narrative Progression
+Traditional narrative-driven games rely on pre-written branching trees (like classic visual novels). While reliable, these trees scale poorly—exponential branching quickly forces writers to collapse storylines back into linear bottlenecks, making player choices feel superficial.
 
-In conventional narrative games, choices funnel into a handful of predefined paths. In Unsaid, the conversation state is dynamic: every response from the player updates underlying character disposition meters (trust, hesitation, defensiveness) and prompts the AI character model to respond with contextually grounded emotional nuances.
+On the other hand, raw unconstrained conversational AI in games frequently breaks immersion: characters lose their emotional memory, hallucinate inconsistent backstories, drift out of tone, or produce rambling text that ruins cinematic dramatic timing.
 
-The narrative advances through distinct dramatic beats that react to the tone and history of the conversation, producing divergent outcomes based on subtle conversational shifts.
+The challenge was: how do you give players true conversational freedom without sacrificing story coherence, emotional continuity, and dramatic pacing?
 
-## What I Built
+## Approach
 
-As a solo developer, I handled the entire design and engineering cycle:
+The core philosophy behind Unsaid is **guided emergence**:
 
-- **AI Conversation System:** Implemented prompt engineering pipelines with strict schema constraints to keep LLM-driven character personas in character while generating structured response payloads containing dialogue, emotional cues, and disposition updates.
-- **Narrative Progression Engine:** Designed a state machine that tracks conversational memory, key narrative triggers, and threshold conditions required to unlock story branches.
-- **Game Logic:** Built state-tracking logic that ensures dialogue progression stays paced and coherent, preventing repetitive replies or out-of-context hallucinations.
-- **Frontend & Visual Presentation:** Crafted a cinematic, distraction-free conversational UI featuring responsive typography, dialogue pacing delays, and character mood visual cues.
-- **Backend Architecture:** Built a server runtime that manages session state, caches dialogue context history, and securely interfaces with AI model APIs with sub-second latency targets.
+1. **Dynamic Character Disposition State Machine:** Instead of branching the story on rigid binary flags, every interaction modifies an internal disposition vector (tracking trust, hesitation, defensiveness, and emotional volatility).
+2. **Constrained Prompt Architecture:** Dialogue generation is bound to strict system prompts with explicit character behavioral boundaries and rigid JSON response schemas.
+3. **Structured Response Contracts:** The AI does not output raw conversational text. It returns a structured JSON payload containing spoken dialogue, non-verbal emotional stage directions, disposition delta shifts, and narrative unlock flags.
+
+<Diagram title="unsaid-runtime.diagram" caption="Unsaid dialogue pipeline: from player choice to real-time state mutation and cinematic rendering.">
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 text-xs">
+    <div className="rounded-lg border border-line bg-cream-deep/60 p-4">
+      <div className="font-mono text-forest font-semibold uppercase tracking-wider">01 · Player Input &amp; State</div>
+      <p className="mt-2 text-ink-soft">Captures dialogue choice, player tone history, and current emotional disposition vector (trust, defensiveness).</p>
+    </div>
+    <div className="rounded-lg border border-line bg-cream-deep/60 p-4">
+      <div className="font-mono text-forest font-semibold uppercase tracking-wider">02 · Schema-Constrained LLM</div>
+      <p className="mt-2 text-ink-soft">Server formats context window and enforces structured JSON output: dialogue, mood cues, and state delta shifts.</p>
+    </div>
+    <div className="rounded-lg border border-line bg-cream-deep/60 p-4">
+      <div className="font-mono text-forest font-semibold uppercase tracking-wider">03 · Cinematic Delivery</div>
+      <p className="mt-2 text-ink-soft">Frontend parses emotion vectors, animates visual mood indicators, and paces dialogue delivery under 500ms latency.</p>
+    </div>
+  </div>
+</Diagram>
 
 ## Technical Implementation
 
-- **Frontend:** Built with responsive TypeScript components, creating a cinematic dialogue interface that emphasizes pacing, typography, and mood indicators.
-- **Backend Services:** Orchestrates conversational state management and handles token-optimized context windows sent to AI endpoints.
-- **AI Integration:** Implements structured JSON output formatting from language model APIs to parse dialogue, tone vectors, and narrative progression flags deterministically.
+- **Frontend &amp; Cinematic UI:** Built with TypeScript and Next.js, featuring a distraction-free editorial interface with timed dialogue reveals, subtle typography transitions, character mood visualizers, and stateful sound cues.
+- **Narrative Progression Engine:** A custom state machine that tracks conversation memory, emotional tipping points, and multi-turn dramatic beats. Story milestones only unlock when specific emotional thresholds are reached.
+- **Backend API &amp; Context Management:** A lightweight API runtime that manages conversation session state, prunes token history to maintain tight context windows, and interfaces securely with AI endpoints.
+- **Structured JSON Schema Enforcement:** Strict prompt contracts ensuring LLM responses parse deterministically into dialogue lines, stage directions, and numeric meter updates without runtime deserialization errors.
+
+## Challenges
+
+- **Sub-500ms Response Latency:** Cinematic games require tight conversational pacing. Waiting several seconds for an LLM response breaks dramatic tension. I optimized the prompt token footprint, pre-warmed connections, and implemented progressive text delivery to maintain conversational rhythm.
+- **Hallucination &amp; Tone Drift:** LLMs often break character when challenged. I instituted strict persona boundaries within the prompt system and fallback disposition validation to prevent characters from agreeing too easily or losing their defined emotional traits.
+- **Solo End-to-End Execution:** Developing the entire project solo—narrative writing, game logic, state machine architecture, UI design, and AI integration—demanded rigorous scoping to ensure a polished vertical slice before the hackathon submission deadline.
+
+## Outcome
+
+- **Top 5 Finalist at Tencent Hackathon 2026** among competitive submissions, developed end-to-end as a solo developer.
+- Created a fully playable conversational vertical slice demonstrating responsive, emotionally grounded AI character interactions.
+- Proved the viability of combining deterministic finite-state machines with generative AI in narrative game design.

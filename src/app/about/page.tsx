@@ -1,23 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
-import Tilt from "@/components/motion/Tilt";
 import Eyebrow from "@/components/Eyebrow";
+import ProfileCard from "@/components/ProfileCard";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Who Jobayer Alam is and where he's headed.",
+  description: "Who Jobayer Alam is, his background in software engineering, and how he builds products.",
 };
 
 const rightNow = [
   {
     label: "Studying",
-    value: "Software Engineering at Universiti Teknologi Malaysia",
+    value: "Software Engineering at Universiti Teknologi Malaysia (UTM)",
   },
-  { label: "Building", value: "ClawFit & AI-powered applications" },
+  { label: "Building", value: "ClawFit & AI-assisted products" },
+  {
+    label: "Focus",
+    value: "Full-Stack Development, System Architecture & AI Integration",
+  },
   {
     label: "Looking for",
-    value: "Freelance projects & software engineering internships",
+    value: "Freelance client work & software engineering internships",
   },
 ];
 
@@ -36,37 +40,78 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-      <section className="mx-auto max-w-[1080px] px-7 pb-10 pt-6">
-        <div className="grid grid-cols-1 items-start gap-16 min-[761px]:grid-cols-[1.4fr_0.9fr]">
+      <section className="mx-auto max-w-[1080px] px-7 pb-14 pt-6">
+        <div className="grid grid-cols-1 items-start gap-14 min-[761px]:grid-cols-[1.3fr_0.9fr]">
           {/* bio column */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-8">
             <Reveal>
-              <p className="text-[19px] leading-[1.7] text-ink-soft">
-                I&rsquo;m Jobayer Alam, a software engineering student at
-                Universiti Teknologi Malaysia. I build complete software
-                products from idea to implementation — spanning web
-                applications, AI-powered systems, and interactive experiences.
-              </p>
-            </Reveal>
-            <Reveal>
-              <p className="text-[19px] leading-[1.7] text-ink-soft">
-                My work bridges frontend engineering, backend services, and
-                system design. Whether building full-stack platforms like
-                ClawFit, developing production client websites like Narmaa
-                Transport, or competing in hackathons, I enjoy working through
-                the entire development lifecycle.
-              </p>
-            </Reveal>
-            <Reveal>
-              <p className="text-[19px] leading-[1.7] text-ink-soft">
-                I learn by building real products and solving concrete
-                constraints. I&rsquo;m always interested in freelance
-                opportunities, engineering internships, and collaborating on
-                ambitious software projects.
-              </p>
+              <div className="space-y-4">
+                <p className="text-[19px] leading-[1.7] text-ink-soft">
+                  I&rsquo;m Jobayer Alam, a software engineering student at
+                  Universiti Teknologi Malaysia. I build complete software
+                  products from idea to implementation — spanning web
+                  applications, AI-powered systems, and interactive software.
+                </p>
+                <p className="text-[19px] leading-[1.7] text-ink-soft">
+                  Rather than specializing narrowly in front-end or back-end,
+                  I work across the entire product lifecycle: understanding what
+                  users and businesses need, architecting relational schemas,
+                  building resilient APIs, and crafting fast, accessible
+                  interfaces.
+                </p>
+              </div>
             </Reveal>
 
-            <Reveal className="mt-4">
+            {/* Three Pillars */}
+            <div className="space-y-6 border-t border-line/70 pt-6">
+              <Reveal>
+                <div className="rounded-xl border border-line bg-cream-deep/30 p-6">
+                  <h2 className="font-serif text-xl font-medium tracking-tight text-ink">
+                    I build beyond assignments.
+                  </h2>
+                  <p className="mt-2 text-base leading-[1.65] text-ink-soft">
+                    The work that has shaped my engineering skills the most is
+                    the work nobody assigned. I take concepts from university
+                    lectures and push them into real-world applications — like
+                    building a custom 2D action engine on bare canvas or
+                    designing structured AI prompt pipelines for cinematic games.
+                  </p>
+                </div>
+              </Reveal>
+
+              <Reveal>
+                <div className="rounded-xl border border-line bg-cream-deep/30 p-6">
+                  <h2 className="font-serif text-xl font-medium tracking-tight text-ink">
+                    I learn by creating real products.
+                  </h2>
+                  <p className="mt-2 text-base leading-[1.65] text-ink-soft">
+                    Reading documentation and following tutorials only goes so far.
+                    True understanding comes from solving production bottlenecks:
+                    handling database foreign-key constraints in PostgreSQL,
+                    optimizing Fastify REST endpoints, managing sub-second LLM
+                    inference windows, and deploying websites that real businesses
+                    rely on.
+                  </p>
+                </div>
+              </Reveal>
+
+              <Reveal>
+                <div className="rounded-xl border border-line bg-cream-deep/30 p-6">
+                  <h2 className="font-serif text-xl font-medium tracking-tight text-ink">
+                    I build across the full process.
+                  </h2>
+                  <p className="mt-2 text-base leading-[1.65] text-ink-soft">
+                    From problem definition to deployed software, I enjoy
+                    handling the complete path. When developing Narmaa
+                    Transport, that meant translating client operational
+                    friction into a responsive customer-facing platform with a
+                    direct WhatsApp enquiry funnel that actually converts.
+                  </p>
+                </div>
+              </Reveal>
+            </div>
+
+            <Reveal className="mt-2">
               <div className="flex flex-wrap gap-3.5">
                 <Link
                   data-mag
@@ -89,16 +134,11 @@ export default function AboutPage() {
           {/* sticky aside */}
           <div className="flex flex-col gap-7 min-[761px]:sticky min-[761px]:top-24">
             <Reveal>
-              <Tilt maxDeg={5} scale={1.015}>
-                <div className="stripes flex aspect-[4/5] items-center justify-center overflow-hidden rounded-[14px] border border-line">
-                  <span className="font-mono text-xs uppercase tracking-[0.1em] text-mono-label">
-                    portrait
-                  </span>
-                </div>
-              </Tilt>
+              <ProfileCard />
             </Reveal>
+
             <Reveal>
-              <div className="rounded-[14px] bg-cream-deep p-7">
+              <div className="rounded-2xl border border-line bg-cream-deep p-7">
                 <h2 className="mb-[18px] font-serif text-xl font-medium tracking-[-0.01em]">
                   Right now
                 </h2>

@@ -12,26 +12,56 @@ imageLabel: "fitness platform"
 
 ## Overview
 
-ClawFit is an AI-assisted fitness and health platform designed to simplify daily nutrition and workout tracking. Instead of forcing users to manually look up nutritional breakdowns for every ingredient or navigate convoluted multi-tier forms, the platform lets users log meals through natural language and image analysis, maintaining unified logs for calories, macronutrients, and exercise routines.
+ClawFit is an AI-assisted fitness platform for nutrition and workout tracking. Designed to remove the friction of manual caloric accounting, the application lets users log meals through natural language descriptions and image analysis, transforming unstructured inputs into validated nutritional metrics, macronutrient targets, and persistent workout logs.
+
+Rather than treating nutrition logging as simple spreadsheet entry, ClawFit treats it as a software pipeline problem: taking noisy real-world input, validating it through schema-constrained AI ingestion, and committing it to a high-integrity relational database.
 
 ## Problem
 
-Tracking daily nutrition and exercise is notoriously high-friction. Traditional fitness applications demand that users search extensive databases, weigh individual items, and manually input serving sizes for every single meal. When logging a meal takes several minutes, consistency drops rapidly. 
+Daily nutrition and fitness tracking has a notoriously high abandonment rate. Traditional mobile and web applications require users to search fragmented databases of branded products, weigh individual recipe ingredients, and manually adjust serving fraction sliders for every snack and meal. When logging a single lunch takes several minutes of tedious searching, user consistency deteriorates rapidly.
 
-Most people do not stop tracking because they lack motivation; they stop because the input mechanics are tedious and disconnected from how people actually eat and train.
+Most people do not abandon fitness tracking because they lack discipline; they stop because the input mechanics are high-friction and disconnected from how people actually prepare and consume food.
 
-## What I Built
+## Approach
 
-I developed ClawFit as an end-to-end full-stack application covering user interfaces, server-side APIs, database modeling, and AI processing pipelines:
+The core idea behind ClawFit was to replace tedious manual item selection with an automated ingestion pipeline. Instead of requiring users to construct a multi-table database query in their heads, users provide natural inputs—a sentence describing what they ate or a photograph of their plate.
 
-- **Frontend Application:** A responsive interface built with Next.js and TypeScript, focused on fast input, clear daily dashboard summaries, and real-time feedback for nutrient targets.
-- **Backend APIs:** A dedicated REST API service built with Fastify, handling user sessions, daily log aggregation, and structured payloads for AI ingestion.
-- **Database Architecture:** A relational schema designed in PostgreSQL to maintain consistent records of user profiles, daily caloric targets, meal entries, food breakdown components, and workout logs with foreign-key integrity.
-- **AI Meal Analysis Features:** An ingestion pipeline that parses free-form text descriptions and meal photos using AI APIs, extracting estimated macro distributions (proteins, carbs, fats) and calorie counts into structured database records.
+The system processes this input through multimodal AI endpoints configured with strict output schema definitions, validates the resulting macronutrient estimates against sanity bounds, and commits typed relational records to PostgreSQL in a single request transaction.
 
 ## Technical Implementation
 
-- **Next.js & TypeScript:** Power the frontend with typed components, responsive layouts, and client-side form validation to ensure fast UI updates.
-- **Fastify:** Chosen for the backend service due to its low overhead, schema-based request validation, and predictable routing performance.
-- **PostgreSQL:** Stores structured nutrition data, workout logs, and user targets with relational constraints and indexing on date ranges for fast retrieval.
-- **AI APIs:** Process user inputs into normalized JSON schemas before records are committed to the database, ensuring incoming AI responses adhere to strict types.
+ClawFit is architected as an end-to-end full-stack application built around data consistency, type safety, and low request overhead:
+
+- **Frontend Application (Next.js & TypeScript):** Built using the Next.js App Router with client-side state handling for optimistic updates. The dashboard presents daily caloric burn vs. intake targets, dynamic macronutrient distribution charts (protein, carbohydrates, fats), and a rapid-entry logging interface.
+- **Backend API Service (Fastify):** Chosen over standard full-stack server actions to establish a clean separation of concerns. Fastify provides low latency, built-in JSON schema validation on every route via Ajv, and predictable serialization overhead.
+- **Relational Database Design (PostgreSQL):** A normalized relational schema modeled around user profiles, daily caloric targets, structured meal records, itemized food components, and workout logs. Foreign-key relationships enforce data integrity across cascading deletes and multi-item meals, with indexes placed on user IDs and date ranges for sub-10ms daily history queries.
+- **AI Meal Analysis Pipeline:** Unstructured text and image payloads pass through prompt-engineered AI endpoints enforcing deterministic JSON schemas. The pipeline extracts itemized ingredient estimates, grams, total calories, and macro distributions before committing to the database.
+
+<Diagram title="clawfit-architecture.diagram" caption="ClawFit data flow: from natural language meal input to structured relational storage.">
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 text-xs">
+    <div className="rounded-lg border border-line bg-cream-deep/60 p-4">
+      <div className="font-mono text-forest font-semibold uppercase tracking-wider">01 · Client Input</div>
+      <p className="mt-2 text-ink-soft">Next.js UI captures photo or natural text input (e.g., &ldquo;Grilled salmon, quinoa, salad&rdquo;) with optimistic local state updates.</p>
+    </div>
+    <div className="rounded-lg border border-line bg-cream-deep/60 p-4">
+      <div className="font-mono text-forest font-semibold uppercase tracking-wider">02 · Fastify &amp; AI Pipeline</div>
+      <p className="mt-2 text-ink-soft">REST endpoint validates user session, sends prompt with strict JSON schema to AI APIs, and verifies macro bounds.</p>
+    </div>
+    <div className="rounded-lg border border-line bg-cream-deep/60 p-4">
+      <div className="font-mono text-forest font-semibold uppercase tracking-wider">03 · PostgreSQL Relational Storage</div>
+      <p className="mt-2 text-ink-soft">Normalized meal records, items, and calorie counts stored with foreign keys and date indexing for instant retrieval.</p>
+    </div>
+  </div>
+</Diagram>
+
+## Challenges
+
+- **Deterministic AI Outputs:** Language and vision models can occasionally produce hallucinated fields or non-standard numeric types. Enforcing strict JSON schema validation and defensive error boundary handling on the Fastify server was necessary to prevent malformed records from reaching PostgreSQL.
+- **Latency Optimization:** Waiting for multimodal AI vision analysis can interrupt user flow. Implementing optimistic client-side dashboard state alongside async background processing ensured the user interface remained responsive while external APIs completed processing.
+- **Data Modeling for Complex Meals:** Designing a relational schema that easily accounts for multi-ingredient dishes, custom portion adjustments, and past edit history without denormalizing data required careful foreign-key and junction table planning.
+
+## Outcome
+
+- Successfully architected and implemented the end-to-end platform, from Fastify backend APIs to the Next.js frontend.
+- Deployed a fully functional schema migration suite and database container in PostgreSQL.
+- Verified AI meal parsing workflows that accurately convert natural language descriptions into itemized nutritional records within sub-second backend response windows.

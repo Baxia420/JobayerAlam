@@ -1,0 +1,153 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 2752 >>
+stream
+BT
+/F2 22 Tf
+50 730 Td
+(Jobayer Alam) Tj
+-50 -730 Td
+/F1 10 Tf
+50 704 Td
+(Product-Focused Software Engineer | Johor Bahru, Malaysia) Tj
+-50 -704 Td
+/F1 10 Tf
+50 691 Td
+(Universiti Teknologi Malaysia \(UTM\) - BSc Software Engineering) Tj
+-50 -691 Td
+/F1 10 Tf
+50 678 Td
+(Website: jobayeralam.com | Email: jobayer@example.com) Tj
+-50 -678 Td
+/F2 13 Tf
+50 665 Td
+(EDUCATION) Tj
+-50 -665 Td
+/F2 10 Tf
+50 645 Td
+(Universiti Teknologi Malaysia \(UTM\)) Tj
+-50 -645 Td
+/F1 9 Tf
+50 632 Td
+(Bachelor of Science in Software Engineering \(Expected 2029\)) Tj
+-50 -632 Td
+/F1 9 Tf
+50 619 Td
+(Academic Standing: CGPA 3.71 / 4.00 | Dean's List \(2 semesters\) | IELTS Academic 8.0) Tj
+-50 -619 Td
+/F2 13 Tf
+50 606 Td
+(EXPERIENCE) Tj
+-50 -606 Td
+/F2 10 Tf
+50 586 Td
+(Narmaa Transport - Software Development Intern \(2025\)) Tj
+-50 -586 Td
+/F1 9 Tf
+50 573 Td
+(- Developed production web platform with React, TypeScript, and Tailwind CSS.) Tj
+-50 -573 Td
+/F1 9 Tf
+50 560 Td
+(- Streamlined inquiries into a direct WhatsApp booking and lead qualification funnel.) Tj
+-50 -560 Td
+/F1 9 Tf
+50 547 Td
+(- Architected strongly typed service catalogue and structured per-page SEO and OpenGraph metadata.) Tj
+-50 -547 Td
+/F2 13 Tf
+50 534 Td
+(HONORS & AWARDS) Tj
+-50 -534 Td
+/F2 10 Tf
+50 514 Td
+(Top 5 Finalist - Tencent Hackathon 2026 \(Unsaid, Solo Developer\)) Tj
+-50 -514 Td
+/F1 9 Tf
+50 501 Td
+(Built an AI-powered conversational game using dynamic disposition state machines and constrained LLM output.) Tj
+-50 -501 Td
+/F2 10 Tf
+50 488 Td
+(Top 5 Finalist - UTM Hackathon 2026 \(Moonblade, Solo Developer\)) Tj
+-50 -488 Td
+/F1 9 Tf
+50 475 Td
+(Built a zero-dependency 2D action combat game in raw HTML5 Canvas with custom 60 FPS physics loop.) Tj
+-50 -475 Td
+/F2 13 Tf
+50 462 Td
+(FLAGSHIP PROJECTS) Tj
+-50 -462 Td
+/F2 10 Tf
+50 442 Td
+(ClawFit - AI-Assisted Nutrition & Fitness Platform \(2026\)) Tj
+-50 -442 Td
+/F1 9 Tf
+50 429 Td
+(Full-stack application \(Next.js, Fastify, PostgreSQL\) with schema-constrained AI meal ingestion.) Tj
+-50 -429 Td
+/F2 10 Tf
+50 416 Td
+(Narmaa Transport - Commercial Logistics Platform \(2026\)) Tj
+-50 -416 Td
+/F1 9 Tf
+50 403 Td
+(Production client website with typed data models, responsive galleries, and WhatsApp lead capture.) Tj
+-50 -403 Td
+/F2 13 Tf
+50 390 Td
+(TECHNICAL SKILLS) Tj
+-50 -390 Td
+/F1 9 Tf
+50 370 Td
+(Frontend: React, Next.js, TypeScript, Tailwind CSS, HTML5 Canvas) Tj
+-50 -370 Td
+/F1 9 Tf
+50 357 Td
+(Backend: Node.js, Fastify, REST APIs) Tj
+-50 -357 Td
+/F1 9 Tf
+50 344 Td
+(Database: PostgreSQL, Supabase) Tj
+-50 -344 Td
+/F1 9 Tf
+50 331 Td
+(AI & LLM: AI APIs, Prompt Engineering, Structured JSON Schemas, AI-assisted workflows) Tj
+-50 -331 Td
+/F1 9 Tf
+50 318 Td
+(Tools & DevOps: Git, GitHub, Vercel, Docker) Tj
+-50 -318 Td
+ET
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000000321 00000 n 
+0000000396 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+3200
+%%EOF

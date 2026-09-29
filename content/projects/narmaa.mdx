@@ -11,30 +11,48 @@ imageLabel: "landing page"
 cover: "/projects/narmaa/cover.webp"
 ---
 
-## The problem
+## Overview
 
-A real transport business needed a site that did more than exist. It had four different things to sell (airport transfers, car rental, chauffeured tours, homestays), an audience that books over WhatsApp rather than through a checkout, and no appetite for a booking system nobody would use.
+Narmaa Transport is a commercial web platform built for a Malaysian transport and tourism company operating across Johor and Singapore. The business provides four distinct services: airport transfers, car rentals, chauffeured custom tours, and homestays.
 
-## What I built
+Rather than building a decorative brochure or an over-engineered e-commerce checkout that customers would abandon, I engineered a customer-facing platform built around how regional transport bookings actually happen: structured catalogue discovery leading to direct WhatsApp inquiry handoffs.
 
-A React and TypeScript front end covering the whole catalogue: fleet, tours, homestays and shuttles, each with detail pages, galleries and a category-filtered FAQ. The important part is the funnel. Instead of pretending customers want a multi-step checkout, every path ends in a lead form that captures the enquiry and hands the conversation straight to WhatsApp, where this business actually closes bookings. A floating WhatsApp button follows the whole site.
+## Problem
+
+The client operated without a consolidated digital presence, relying on fragmented social media messages and phone calls. Customers regularly asked the same basic logistical questions—pricing tiers, vehicle specifications, tour itineraries, and luggage capacities—consuming hours of manual customer service.
+
+Initial discussions leaned toward building a full payment and checkout system. However, in regional private transport, customer itineraries are rarely uniform; pricing depends on pick-up points, customs crossing, group sizes, and variable schedules. Forcing users through a rigid multi-step checkout would introduce heavy drop-off. The real business requirement was structured lead qualification.
+
+## Approach
+
+My strategy prioritized operational reality over technical vanity:
+
+1. **Structured Catalogue Discovery:** Build dedicated, rich browsing experiences for each service vertical (fleet specs, day tour itineraries, shuttle routes) to answer high-frequency questions upfront.
+2. **Context-Aware WhatsApp Handoff:** Replace generic "Contact Us" links with pre-formatted quote requests. When a user selects a vehicle or tour, the inquiry form compiles their date, passenger count, and route into a formatted message sent directly to the business's WhatsApp line.
+3. **Robust SEO & Production Architecture:** Ensure high organic discoverability through granular meta tags, OpenGraph previews, XML sitemaps, and strict typing across all service models.
+
+## Technical Implementation
+
+- **Frontend Architecture (React & TypeScript):** Developed a responsive, component-driven client architecture. Each service vertical (Fleet, Tours, Homestays, Shuttles) features dedicated detail views, media galleries, interactive filters, and category-indexed FAQs.
+- **Typed Content & Catalogue Layer:** Rather than hardcoding vehicle pages, all fleet specifications, tour milestones, and pricing variables are maintained in strongly typed TypeScript data models. Adding a new vehicle or seasonal tour requires only a data entry change without touching presentation components.
+- **Lead Generation & WhatsApp Funnel:** Built custom client-side form validation that serializes user choices into URL-encoded WhatsApp deep links. The business receives structured inquiry parameters instantly on mobile, ready for closing.
+- **Search Engine Optimization (SEO):** Implemented programmatic metadata generation across all routes, semantic HTML structure, dynamic sitemaps, and OpenGraph tags to ensure rich social previews when links are shared on chat apps.
+- **Feature Flags for Staged Delivery:** Wrapped unfinalized client offerings behind feature flags, allowing the core fleet and airport shuttle services to go live while the client gathered assets for homestay packages.
 
 <Figure src="/projects/narmaa/tour-page.webp" caption="A tour detail page — itinerary, gallery and a lead form that hands off to WhatsApp." />
 
-Because the client needs to be found, SEO is real rather than decorative: per-page titles, meta descriptions and OpenGraph tags, plus a sitemap and robots file.
-
 <Figure src="/projects/narmaa/car-rental.webp" caption="The fleet: premium vehicles with specs, browsable by category." />
-
-## Decisions and trade-offs
-
-**Meet the customer where they already are.** The instinct is to build a booking engine. The right answer was to notice that this business runs on WhatsApp and make the site a very good front door to it. Lead capture plus a handoff beat a checkout nobody would have completed, and it removed an enormous amount of scope.
 
 <Figure src="/projects/narmaa/airport-shuttle.webp" caption="The airport shuttle flow — a quote request, not a checkout nobody would finish." />
 
-**Feature flags over branches.** Sections the client had not finalised are behind flags, so the site could go live without the unfinished parts and turn them on later without a redeploy of half-built code.
+## Challenges
 
-**Content in a typed data layer.** Cars, tours and stays are typed data rather than hand-written pages, so adding a vehicle is a data change, not a copy-paste of a page.
+- **Resisting Over-Engineering:** As a developer, the initial instinct was to architect a full booking database and payment integration. Working closely with the business owner revealed that payment gateways would add unnecessary merchant fees and customer friction. Aligning technical scope with operational reality was the most critical decision on the project.
+- **Data Standardization Across Divergent Verticals:** Airport transfers require pick-up time and flight number fields; car rentals require driver license and duration criteria; tours require itinerary steps. Creating a unified UI design system that accommodates these varying data models while keeping the code DRY required careful component abstraction.
+- **Staged Client Content Handoff:** Working with a live business means client photography and copy arrive incrementally. Structuring the codebase with feature flags and fallback layouts ensured development never stalled waiting for assets.
 
-## What I learned
+## Outcome
 
-The most valuable thing I did on this project was argue for less. My first instinct was to build the impressive thing; the useful thing was to work out how the business actually makes money and get out of its way. Building for a real stakeholder, with real opinions and a real deadline, taught me more about scoping than any amount of building for myself.
+- Successfully launched the platform to production, delivering the company's first cohesive digital touchpoint.
+- Replaced repetitive manual customer inquiries with structured, self-service information pages and pre-qualified WhatsApp leads.
+- Delivered a maintainable, typed codebase that the client can easily expand with new vehicles and tour routes.
